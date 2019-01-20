@@ -1,4 +1,5 @@
 #include "Header.h"
+//#include "Cube.h"
 
 using namespace std;
 
@@ -8,7 +9,7 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
+/*
 const char *vertexShaderSource = "#version 460 core\n"
 "layout (location = 0) in vec3 aPos;\n"
 "void main()\n"
@@ -21,7 +22,7 @@ const char *fragmentShaderSource = "#version 460 core\n"
 "{\n"
 "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 "}\n\0";
-
+*/
 
 int main()
 {
