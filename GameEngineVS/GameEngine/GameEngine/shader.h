@@ -3,7 +3,6 @@
 #define SHADER_H
 
 #include <glad/glad.h>
-#include <glm/glm/glm.hpp>
 
 #include <string>
 #include <fstream>
@@ -103,6 +102,7 @@ public:
 	{
 		glUseProgram(ID);
 	}
+	/*
 	// utility uniform functions
 	// ------------------------------------------------------------------------
 	void setBool(const std::string &name, bool value) const
@@ -162,6 +162,7 @@ public:
 		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 	}
 
+	*/
 private:
 	// utility function for checking shader compilation/linking errors.
 	// ------------------------------------------------------------------------

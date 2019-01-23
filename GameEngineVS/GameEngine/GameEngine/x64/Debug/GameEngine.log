@@ -1,6 +1,2 @@
-﻿  glad.c
-  Cube.cpp
-  Source.cpp
-  Generating Code...
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+﻿  Source.cpp
   GameEngine.vcxproj -> C:\Users\Admin\Desktop\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe
