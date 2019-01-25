@@ -1,7 +1,11 @@
-#include "Cube.h"
+#include "Sphere.h"
 
+void Sphere::calculateVertandInd(int indices, float vertices)
+{
+	//Convert radians maybe
+}
 
-void Cube::loadCube(GLuint VAO, GLuint VBO, GLuint EBO)
+void Sphere::loadSphere(GLuint VAO, GLuint VBO, GLuint EBO)
 {
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 	glBindVertexArray(VAO);
@@ -23,9 +27,9 @@ void Cube::loadCube(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBindVertexArray(0);
 }
 
-void Cube::deleteCube(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb)
+void Sphere::deleteSphere(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb)
 {
-		glDeleteVertexArrays(va, &VAO);
-		glDeleteBuffers(vb, &VBO);
-		glDeleteBuffers(eb, &EBO);
+	glDeleteVertexArrays(va, &VAO);
+	glDeleteBuffers(vb, &VBO);
+	glDeleteBuffers(eb, &EBO);
 }

@@ -3,3 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <string>
+#include "shader.h"
+#include "Cube.h"
+#include "Sphere.h"
+#include "Vector3D.h"

@@ -1,6 +1,4 @@
 #include "Header.h"
-#include "shader.h"
-#include "Cube.h"
 
 
 using namespace std;
@@ -49,36 +47,12 @@ int loadPointers() {
 }
 
 //Deal with loading of vaos and vbos
-void loadCube(GLuint VAO, GLuint VBO, GLuint EBO, Cube cube) {
-	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cube.vertices), cube.vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cube.indices), cube.indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-	glBindVertexArray(0);
+void assignBuffers(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb) {
+	glGenVertexArrays(va, &VAO);
+	glGenBuffers(vb, &VBO);
+	glGenBuffers(eb, &EBO);
 }
 
-void deallocate(GLuint VAO, GLuint VBO, GLuint EBO, int buffer) {
-	glDeleteVertexArrays(buffer, &VAO);
-	glDeleteBuffers(buffer, &VBO);
-	glDeleteBuffers(buffer, &EBO);
-}
-
-void init() {
-
-}
 
 void display(GLFWwindow* window, Shader ourShader, int VAO) {
 	// uncomment this call to draw in wireframe polygons.
@@ -144,7 +118,7 @@ int main()
 	if (loadPointers() == -1) {
 		return -1;
 	}
-
+	
 	// build and compile our shader program
 	// ------------------------------------
 	Shader ourShader("vert.shader", "frag.shader"); // you can name your shader files however you like
@@ -153,20 +127,20 @@ int main()
 	// ------------------------------------------------------------------
 	
 	Cube cube{};
-	
+
 	unsigned int VBO, VAO, EBO;
-	
+	//Initialized buffers
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
 
-	loadCube(VAO, VBO, EBO, cube);
+	cube.loadCube(VAO,VBO,EBO);
 
 	display(window, ourShader, VAO);
 
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
-	deallocate(VAO, VBO, EBO, 1);
+	cube.deleteCube(VAO, VBO, EBO, 1, 1, 1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

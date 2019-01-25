@@ -144,13 +144,17 @@
   <ItemGroup>
     <ClCompile Include="..\Dependencies\include\GLAD\src\glad.c" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="Vector3D.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="Sphere.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="frag.shader" />
