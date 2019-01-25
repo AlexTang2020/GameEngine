@@ -11,7 +11,7 @@ Checklist:
   Create Cube, Sphere class 
   Create Moving Camera
   Add Textures, Light, Shadows
-  Add my own math library?
+  Add personal math library (Vector3D, Matrices)
   Create Object Loader class
   
 Learning Resources:
