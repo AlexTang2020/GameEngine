@@ -21,8 +21,11 @@ public:
 	Vector3D Normal() const;
 
 	// member functions
+	Vector3D operator+(Vector3D const& right);
+	Vector3D operator*(float val);
+
 	void add(Vector3D const& right);
-	void scale(Vector3D const& right);
+	void scale(float val);
 
 	float Dot(Vector3D const& right);
 	Vector3D Cross(Vector3D const& right);
