@@ -83,4 +83,3 @@ Vector3D Lerp(Vector3D & left, Vector3D & right, float val)
 {
 	return right*(val) + left*(1.0f - val);
 }
-

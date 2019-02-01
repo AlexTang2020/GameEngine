@@ -31,18 +31,16 @@ public:
 	Vector3D Cross(Vector3D const& right);
 
 	Vector3D Lerp(Vector3D& left, float val);
-	Vector3D Perpendicular(Vector3D& left, Vector3D& right);
 
 private:
 
 };
 
 // free standing functions
-float Dot(Vector3D const& right);
-Vector3D Cross(Vector3D const& right);
+float Dot(Vector3D const & right, Vector3D const & left);
+Vector3D Cross(Vector3D const & left, Vector3D const & right);
 
-Vector3D Lerp(Vector3D& left, float val);
-Vector3D Perpendicular(Vector3D& left, Vector3D& right);
+Vector3D Lerp(Vector3D & left, Vector3D & right, float val);
 
 // assuming right handed Y - up axis
 static const Vector3D VECTOR3D_UP{ 0.0f, 1.0f, 0.0f };
