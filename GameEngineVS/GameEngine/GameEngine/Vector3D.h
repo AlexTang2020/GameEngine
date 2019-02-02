@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 
 class Vector3D
 {
@@ -25,7 +26,7 @@ public:
 	Vector3D operator*(float val);
 
 	void add(Vector3D const& right);
-	void scale(float val);
+	void scale(float valx, float valy, float valz);
 
 	float Dot(Vector3D const& right);
 	Vector3D Cross(Vector3D const& right);
