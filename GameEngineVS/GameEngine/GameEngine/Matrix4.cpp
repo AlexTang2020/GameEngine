@@ -1,4 +1,7 @@
+#define _USE_MATH_DEFINES
+
 #include "Matrix4.h"
+#include <cmath>
 
 Matrix4::Matrix4()
 {
@@ -49,4 +52,28 @@ void Matrix4::transpose()
 		}
 	}
 	
+}
+
+void Matrix4::rotateX(float angle)
+{
+	mat4[1][1] *= cos(angle*M_PI/180);
+	mat4[1][2] *= sin(angle*M_PI/180);
+	mat4[2][1] *= -sin(angle*M_PI / 180);
+	mat4[2][2] *= cos(angle*M_PI / 180);
+}
+
+void Matrix4::rotateY(float angle)
+{
+	mat4[0][0] *= cos(angle*M_PI / 180);
+	mat4[0][2] *= -sin(angle*M_PI / 180);
+	mat4[2][0] *= sin(angle*M_PI / 180);
+	mat4[2][2] *= cos(angle*M_PI / 180);
+}
+
+void Matrix4::rotateZ(float angle)
+{
+	mat4[0][0] *= cos(angle*M_PI / 180);
+	mat4[0][1] *= sin(angle*M_PI / 180);
+	mat4[1][0] *= -sin(angle*M_PI / 180);
+	mat4[1][1] *= cos(angle*M_PI / 180);
 }

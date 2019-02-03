@@ -1,4 +1,6 @@
 #pragma once
+#include <math.h>
+
 
 class Matrix4
 {
@@ -14,9 +16,9 @@ public:
 	void inverse();
 	void transpose();
 
-	void rotateX();
-	void rotateY();
-	void rotateZ();
+	void rotateX(float angle);
+	void rotateY(float angle);
+	void rotateZ(float angle);
 
 
 private:
