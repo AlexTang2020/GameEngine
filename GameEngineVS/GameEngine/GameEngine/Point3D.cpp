@@ -1,10 +1,10 @@
 #include "Point3D.h"
 
-Point3D::Point3D(): x(0), y(0), z(0)
+Point3D::Point3D(): x(0), y(0), z(0), w(1)
 {
 }
 
-Point3D::Point3D(float x, float y, float z) : x(x), y(y), z(z)
+Point3D::Point3D(float x, float y, float z, int w) : x(x), y(y), z(z)
 {
 }
 

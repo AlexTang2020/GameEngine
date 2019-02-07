@@ -1,4 +1,6 @@
 #pragma once
+#include "Vector3D.h"
+#include <math.h>
 
 class Quaternion
 {
@@ -22,4 +24,11 @@ public:
 	Quaternion operator*=(Quaternion const& right);
 
 	Quaternion scale(float val);
+	float norm();
+	void normalize();
+	void convertToUnitFormQuaternion();
+	Quaternion inverse();
+	Quaternion conjugate();
 };
+
+Vector3D rotateVector(Quaternion q, Vector3D v);

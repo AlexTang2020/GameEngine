@@ -20,6 +20,7 @@ public:
 	void rotateY(float angle);
 	void rotateZ(float angle);
 
+	void concatenate(Matrix4& right);
 
 private:
 
