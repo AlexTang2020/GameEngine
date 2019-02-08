@@ -77,3 +77,32 @@ void Matrix4::rotateZ(float angle)
 	mat4[1][0] *= -sin(angle*M_PI / 180);
 	mat4[1][1] *= cos(angle*M_PI / 180);
 }
+
+void Matrix4::concatenate(Matrix4 & right)
+{
+	float copy[4][4];
+
+	
+
+	for (int i = 0; i < 4; i++) {
+		copy[0][0] += (mat4[0][i] * right.mat4[i][0]);
+		copy[0][1] += (mat4[0][i] * right.mat4[i][1]);
+		copy[0][2] += (mat4[0][i] * right.mat4[i][2]);
+		copy[0][3] += (mat4[0][i] * right.mat4[i][3]);
+
+		copy[1][0] += (mat4[1][i] * right.mat4[i][0]);
+		copy[1][1] += (mat4[1][i] * right.mat4[i][1]);
+		copy[1][2] += (mat4[1][i] * right.mat4[i][2]);
+		copy[1][3] += (mat4[1][i] * right.mat4[i][3]);
+
+		copy[2][0] += (mat4[2][i] * right.mat4[i][0]);
+		copy[2][1] += (mat4[2][i] * right.mat4[i][1]);
+		copy[2][2] += (mat4[2][i] * right.mat4[i][2]);
+		copy[2][3] += (mat4[2][i] * right.mat4[i][3]);
+
+		copy[3][0] += (mat4[3][i] * right.mat4[i][0]);
+		copy[3][1] += (mat4[3][i] * right.mat4[i][1]);
+		copy[3][2] += (mat4[3][i] * right.mat4[i][2]);
+		copy[3][3] += (mat4[3][i] * right.mat4[i][3]);
+	}
+}
