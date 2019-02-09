@@ -145,6 +145,7 @@
     <ClCompile Include="..\Dependencies\include\GLAD\src\glad.c" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="MemAllocater.cpp" />
     <ClCompile Include="Point3D.cpp" />

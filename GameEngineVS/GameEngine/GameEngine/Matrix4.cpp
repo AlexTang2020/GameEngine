@@ -35,7 +35,32 @@ void Matrix4::scale(float x, float y, float z)
 
 void Matrix4::inverse()
 {	
-	
+	float row1I = ( mat4[1][1] * ( (mat4[2][2] * mat4[3][3]) - (mat4[3][2] * mat4[2][3]) ) );
+	float row1J = (mat4[1][2] * ((mat4[2][1] * mat4[3][3]) - (mat4[3][1] * mat4[2][3])));
+	float row1K = (mat4[1][3] * ((mat4[2][1] * mat4[3][2]) - (mat4[3][1] * mat4[2][2])));
+	float row1 = mat4[0][0] * (row1I - row1J + row1K);
+
+	float row2I = (mat4[0][1] * ((mat4[2][2] * mat4[3][3]) - (mat4[3][2] * mat4[2][3])));
+	float row2J = (mat4[0][2] * ((mat4[2][1] * mat4[3][3]) - (mat4[3][1] * mat4[2][3])));
+	float row2K = (mat4[0][3] * ((mat4[2][1] * mat4[3][2]) - (mat4[3][1] * mat4[2][2])));
+	float row2 = mat4[1][0] * (row2I - row2J + row2K);
+
+	float row3I = (mat4[0][1] * ((mat4[1][2] * mat4[3][3]) - (mat4[3][2] * mat4[1][3])));
+	float row3J = (mat4[0][2] * ((mat4[1][1] * mat4[3][3]) - (mat4[3][1] * mat4[1][3])));
+	float row3K = (mat4[0][3] * ((mat4[1][1] * mat4[3][2]) - (mat4[3][1] * mat4[1][2])));
+	float row3 = mat4[2][0] * (row3I - row3J + row3K);
+
+	float row4I = (mat4[0][1] * ((mat4[1][2] * mat4[2][3]) - (mat4[2][2] * mat4[1][3])));
+	float row4J = (mat4[0][2] * ((mat4[1][1] * mat4[2][3]) - (mat4[2][1] * mat4[1][3])));
+	float row4K = (mat4[0][3] * ((mat4[1][1] * mat4[2][2]) - (mat4[2][1] * mat4[1][2])));
+	float row4 = mat4[3][0] * (row4I - row4J + row4K);
+
+	float det = row1 - row2 + row3 - row4;
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 4; col++) {
+			mat4[row][col] /= det;
+		}
+	}
 }
 
 void Matrix4::transpose()

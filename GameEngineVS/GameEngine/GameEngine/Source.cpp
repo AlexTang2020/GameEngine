@@ -73,6 +73,7 @@ void display(GLFWwindow* window, Shader ourShader, int VAO) {
 
 		// draw our first triangle
 		ourShader.use();
+
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 144, GL_UNSIGNED_INT, 0);
