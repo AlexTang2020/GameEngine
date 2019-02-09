@@ -29,6 +29,5 @@ public:
 	void convertToUnitFormQuaternion();
 	Quaternion inverse();
 	Quaternion conjugate();
+	Matrix4 quaternionToMatrix4();
 };
-
-Vector3D rotateVector(Quaternion q, Vector3D v);
