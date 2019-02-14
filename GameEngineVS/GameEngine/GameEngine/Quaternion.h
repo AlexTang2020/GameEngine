@@ -15,19 +15,20 @@ public:
 	explicit Quaternion(float qx, float qy, float qz, float qw);
 
 	// member functions
-	Quaternion operator+(Quaternion const& right);
-	Quaternion operator-(Quaternion const& right);
-	Quaternion operator*(Quaternion const& right);
+	Quaternion operator+(Quaternion const& right);	//Return sum of two quaternions
+	Quaternion operator-(Quaternion const& right);	//Return difference of two quaternions
+	Quaternion operator*(Quaternion const& right);	//Return product of two quaterions
 
-	Quaternion operator+=(Quaternion const& right);
-	Quaternion operator-=(Quaternion const& right);
-	Quaternion operator*=(Quaternion const& right);
+	Quaternion operator+=(Quaternion const& right);	//Return sum of two quaternions, overwrites current quaternion
+	Quaternion operator-=(Quaternion const& right); //Return difference of two quaternions, overwrites current quaternion
+	Quaternion operator*=(Quaternion const& right); //Return product of two quaterions, overwrites current quaternion
 
-	Quaternion scale(float val);
-	float norm();
-	void normalize();
-	void convertToUnitFormQuaternion();
-	Quaternion inverse();
-	Quaternion conjugate();
-	Matrix4 quaternionToMatrix4();
+	Quaternion scale(float val);	//Scales each value in quaternion by val 
+	float norm();					//Returns normal of quaternion
+	void normalize();				//Normalizes quaternion
+	void convertToUnitFormQuaternion();	//Convert to normalized vector
+	Quaternion inverse();				//Returns inverse of quaternion
+	Quaternion conjugate();				//Returns conjugate of quaternion
+	Vector3D quaternionToVector(float angle);	//Return Vector3D of quaternion rotated by an angle
+	Matrix4 quaternionToMatrix4();				//Return Matrix4 of quaternion
 };

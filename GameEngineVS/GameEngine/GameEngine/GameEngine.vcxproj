@@ -151,15 +151,17 @@
     <ClCompile Include="Point3D.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Vector3D.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="MemAllocator.h" />
     <ClInclude Include="Point3D.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="shader.h" />

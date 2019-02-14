@@ -15,11 +15,11 @@ public:
 	explicit Point3D(float x, float y, float z, int w = 1);
 
 	// member functions
-	Vector3D operator-(Point3D const& right);
-	Point3D operator+(Vector3D const& right);
+	Vector3D operator-(Point3D const& right);	//Return vector that is the difference between 2 points
+	Point3D operator+(Vector3D const& right);	//Return point location after moved by a vector
 
-	void add(Vector3D const& right);
-	void concatenate(Matrix4& right);
+	void add(Vector3D const& right);	//Change position of point by a vector
+	void concatenate(Matrix4& right);	//Multiply vector with Matrix4
 
 private:
 

@@ -114,6 +114,10 @@ Quaternion Quaternion::conjugate()
 	return Quaternion(qx * -1, qy * -1, qz * -1, qw);
 }
 
+Vector3D Quaternion::quaternionToVector(float angle) {
+	return Vector3D(qx*sin((M_PI*angle/180)/2), qy*sin((M_PI*angle / 180) / 2),qz*sin((M_PI*angle/180)/2),cos((M_PI*angle/180)/2));
+}
+
 Matrix4 Quaternion::quaternionToMatrix4()
 {
 	Matrix4 qToM = Matrix4();

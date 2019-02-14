@@ -12,3 +12,4 @@
 #include "Point3D.h"
 #include "Matrix4.h"
 #include "Quaternion.h"
+#include "RenderManager.h"

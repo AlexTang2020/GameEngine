@@ -14,27 +14,24 @@ public:
 
 	explicit Vector3D(float x, float y, float z, int w = 0);
 
-	//gets the magnitude
-	float Magnitude() const;
+	float Magnitude() const;		//gets the magnitude
 
-	//mutates the class
-	void Normalize();
+	void Normalize();		//Normalizes vector
 
-	//returns a Vector3 that is the normal, but doesn't change the original one
-	Vector3D Normal() const;
+	Vector3D Normal() const; 	//returns a Vector3 that is the normal, but doesn't change the original one
 
 	// member functions
-	Vector3D operator+(Vector3D const& right);
-	Vector3D operator*(float val);
+	Vector3D operator+(Vector3D const& right);	//Return sum of two vectors
+	Vector3D operator*(float val);				//Return vector scaled by a value
 
-	void add(Vector3D const& right);
-	void scale(float valx, float valy, float valz);
+	void add(Vector3D const& right);			//Add a vector to the current vector
+	void scale(float valx, float valy, float valz);//Scale the current vector by some x,y,z values
 
-	float Dot(Vector3D const& right);
-	Vector3D Cross(Vector3D const& right);
+	float Dot(Vector3D const& right);			//Return dot product of two vectors
+	Vector3D Cross(Vector3D const& right);		//Return cross product of two vectors
 
-	Vector3D Lerp(Vector3D& left, float val);
-	void concatenate(Matrix4& right);
+	Vector3D Lerp(Vector3D& left, float val);	//Return linear interpolation of two vectors
+	void concatenate(Matrix4& right);			//Multiply vector with a matrix
 
 private:
 
