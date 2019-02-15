@@ -56,23 +56,23 @@ Matrix4* MemAllocator::matAlloc() {
 
 
 void MemAllocator::vecFree(Vector3D vec) {
-	if (vecAddr.size < vSize) {
+	if (vecAddr.size() < vSize) {
 		vecAddr.push_back(&vec);
 	}
 }
 void MemAllocator::posFree(Point3D pos) {
-	if (posAddr.size < pSize) {
+	if (posAddr.size() < pSize) {
 		posAddr.push_back(&pos);
 	}
 }
 void MemAllocator::quatFree(Quaternion quat) {
-	if (quatAddr.size < qSize) {
+	if (quatAddr.size() < qSize) {
 		quatAddr.push_back(&quat);
 	}
 }
 void MemAllocator::matFree(Matrix4 mat) {
 	
-	if (matAddr.size < mSize) {
+	if (matAddr.size() < mSize) {
 		matAddr.push_back(&mat);
 	}
 }

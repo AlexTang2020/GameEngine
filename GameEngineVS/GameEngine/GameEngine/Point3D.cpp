@@ -15,7 +15,7 @@ Vector3D Point3D::operator-(Point3D const & right)
 
 Point3D Point3D::operator+(Vector3D const & right)
 {
-	return Point3D(x+right.z, y+right.y, z+right.z);
+	return Point3D(x+right.x, y+right.y, z+right.z);
 }
 
 void Point3D::add(Vector3D const & right)

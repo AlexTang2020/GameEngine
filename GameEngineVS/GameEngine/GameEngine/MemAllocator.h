@@ -3,11 +3,13 @@
 
 class MemAllocator {
 public:
+	//Stores elements of that data type into a vector
 	std::vector<Vector3D> vecMemory;
 	std::vector<Point3D> posMemory;
 	std::vector<Quaternion> quatMemory;
 	std::vector<Matrix4> matMemory;
 
+	//Stores addresses for respective data types in a vector
 	std::vector<Vector3D*> vecAddr;
 	std::vector<Point3D*> posAddr;
 	std::vector<Quaternion*> quatAddr;
@@ -20,17 +22,17 @@ public:
 
 	explicit MemAllocator(int vecSize, int posSize, int quatSize, int matSize);
 
-	Vector3D* vecAlloc();
-	Point3D* posAlloc();
-	Quaternion* quatAlloc();
-	Matrix4* matAlloc();
+	Vector3D* vecAlloc();		//return address of free vector
+	Point3D* posAlloc();		//return address of free point
+	Quaternion* quatAlloc();	//return address of free quaternion
+	Matrix4* matAlloc();		//return address of matrix
 
-	void vecFree(Vector3D vec);
-	void posFree(Point3D pos);
-	void quatFree(Quaternion quat);
-	void matFree(Matrix4 mat);
+	void vecFree(Vector3D vec);		//push address of vector back to pool
+	void posFree(Point3D pos);		//push address of point back to pool 
+	void quatFree(Quaternion quat);	//push address of quaternion back to pool
+	void matFree(Matrix4 mat);		//push address of matrix back to pool
 
-	void resetAll();
+	void resetAll();	//free all memory
 
 private:
 	

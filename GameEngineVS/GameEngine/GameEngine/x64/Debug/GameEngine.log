@@ -1,4 +1,4 @@
-﻿  GameManager.cpp
-  RenderManager.cpp
-  Generating Code...
+﻿  Point3D.cpp
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\point3d.cpp(33): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\point3d.cpp(38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   GameEngine.vcxproj -> C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe

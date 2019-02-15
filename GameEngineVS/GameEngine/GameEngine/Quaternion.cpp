@@ -83,11 +83,11 @@ void Quaternion::normalize()
 
 void Quaternion::convertToUnitFormQuaternion()
 {
-	float angle = qw * M_PI / 180;
+	double angle = qw * M_PI / 180;
 	Vector3D v = Vector3D(qx,qy,qz);
 	v.Normalize();
-	qw *= cosf(angle * 0.5);
-	v.scale(sinf(angle * 0.5), sinf(angle * 0.5), sinf(angle * 0.5));
+	qw *= cosf(angle * 0.5f);
+	v.scale(sinf(angle * 0.5f), sinf(angle * 0.5f), sinf(angle * 0.5f));
 	qx = v.x;
 	qy = v.y; 
 	qz = v.z;
@@ -115,7 +115,7 @@ Quaternion Quaternion::conjugate()
 }
 
 Vector3D Quaternion::quaternionToVector(float angle) {
-	return Vector3D(qx*sin((M_PI*angle/180)/2), qy*sin((M_PI*angle / 180) / 2),qz*sin((M_PI*angle/180)/2),cos((M_PI*angle/180)/2));
+	return Vector3D(qx*sin((M_PI*angle/180.f)/2.f), qy*sin((M_PI*angle / 180.f) / 2.f),qz*sin((M_PI*angle/180.f)/2.f),cos((M_PI*angle/180.f)/2.f));
 }
 
 Matrix4 Quaternion::quaternionToMatrix4()
