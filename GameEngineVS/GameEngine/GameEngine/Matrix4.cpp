@@ -14,7 +14,7 @@ Matrix4::Matrix4()
 
 void Matrix4::setIdentity()
 {
-	for (int diag = 0; diag < sizeof(mat4); diag) {
+	for (int diag = 0; diag < sizeof(mat4); diag++) {
 		mat4[diag][diag] = 1;
 	}
 }
