@@ -13,17 +13,22 @@ public:
 	std::vector<Quaternion*> quatAddr;
 	std::vector<Matrix4*> matAddr;
 
+	int vSize;
+	int pSize;
+	int qSize;
+	int mSize;
+
 	explicit MemAllocator(int vecSize, int posSize, int quatSize, int matSize);
 
-	void vecAlloc();
-	void posAlloc();
-	void quatAlloc();
-	void matAlloc();
+	Vector3D* vecAlloc();
+	Point3D* posAlloc();
+	Quaternion* quatAlloc();
+	Matrix4* matAlloc();
 
-	void vecFree();
-	void posFree();
-	void quatFree();
-	void matFree();
+	void vecFree(Vector3D vec);
+	void posFree(Point3D pos);
+	void quatFree(Quaternion quat);
+	void matFree(Matrix4 mat);
 
 	void resetAll();
 

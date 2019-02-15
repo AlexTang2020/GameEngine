@@ -2,6 +2,11 @@
 
 
 MemAllocator::MemAllocator(int vecSize, int posSize, int quatSize, int matSize) {
+	vSize = vecSize;
+	pSize = posSize;
+	qSize = quatSize;
+	mSize = matSize;
+
 	for (int i = 0; i < vecSize; i++) {
 		vecMemory.push_back(Vector3D());
 		vecAddr.push_back(&vecMemory[i]);
@@ -20,31 +25,56 @@ MemAllocator::MemAllocator(int vecSize, int posSize, int quatSize, int matSize) 
 	}
 }
 
-void MemAllocator::vecAlloc() {
-
+Vector3D* MemAllocator::vecAlloc() {
+	if (!vecMemory.empty()) {
+		Vector3D* myVector = vecAddr.back();
+		vecAddr.pop_back();
+		return myVector;
+	}
 }
-void MemAllocator::posAlloc() {
-
+Point3D* MemAllocator::posAlloc() {
+	if (!posMemory.empty()) {
+		Point3D* myPoint = posAddr.back();
+		posAddr.pop_back();
+		return myPoint;
+	}
 }
-void MemAllocator::quatAlloc() {
-
+Quaternion* MemAllocator::quatAlloc() {
+	if (!quatMemory.empty()) {
+		Quaternion* myQuaternion = quatAddr.back();
+		quatAddr.pop_back();
+		return myQuaternion;
+	}
 }
-void MemAllocator::matAlloc() {
-
+Matrix4* MemAllocator::matAlloc() {
+	if (!matMemory.empty()) {
+		Matrix4* myMatrix = matAddr.back();
+		matAddr.pop_back();
+		return myMatrix;
+	}
 }
 
 
-void MemAllocator::vecFree() {
-
+void MemAllocator::vecFree(Vector3D vec) {
+	if (vecAddr.size < vSize) {
+		vecAddr.push_back(&vec);
+	}
 }
-void MemAllocator::posFree() {
-
+void MemAllocator::posFree(Point3D pos) {
+	if (posAddr.size < pSize) {
+		posAddr.push_back(&pos);
+	}
 }
-void MemAllocator::quatFree() {
-
+void MemAllocator::quatFree(Quaternion quat) {
+	if (quatAddr.size < qSize) {
+		quatAddr.push_back(&quat);
+	}
 }
-void MemAllocator::matFree() {
-
+void MemAllocator::matFree(Matrix4 mat) {
+	
+	if (matAddr.size < mSize) {
+		matAddr.push_back(&mat);
+	}
 }
 
 
