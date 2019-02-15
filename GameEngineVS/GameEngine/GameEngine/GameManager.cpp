@@ -66,7 +66,7 @@ int main(int argc, const char* argv)
 	std::cout << "Matrix translate and scale\n";
 
 	//Need to fix transpose, reading violation, also check matrix math, swap to simd if possible
-	/*
+	
 	mat1.transpose();
 	std::cout << "Matrix transpose\n";
 
@@ -76,7 +76,7 @@ int main(int argc, const char* argv)
 
 	mat1.concatenate(mat2);
 	std::cout << "Matrix concatenate\n";
-	*/
+	
 	//Testing code for Memory Allocation
 
 	std::cout << "Engine startup\n";

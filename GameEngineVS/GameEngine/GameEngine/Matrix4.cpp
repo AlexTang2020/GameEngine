@@ -5,8 +5,8 @@
 
 Matrix4::Matrix4()
 {
-	for (int row = 0; row < sizeof(mat4); row++) {
-		for (int col = 0; col < sizeof(mat4[0]); col++) {
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 4; col++) {
 			mat4[row][col] = 0;
 		}
 	}
@@ -14,7 +14,7 @@ Matrix4::Matrix4()
 
 void Matrix4::setIdentity()
 {
-	for (int diag = 0; diag < sizeof(mat4); diag++) {
+	for (int diag = 0; diag < 4; diag++) {
 		mat4[diag][diag] = 1;
 	}
 }
@@ -66,13 +66,13 @@ void Matrix4::inverse()
 void Matrix4::transpose()
 {
 	Matrix4 transpose = Matrix4();
-	for (int row = 0; row < sizeof(mat4); row++) {
-		for (int col = 0; col < sizeof(mat4[0]); col++) {
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 4; col++) {
 			transpose.mat4[col][row] = mat4[row][col];
 		}
 	}
-	for (int row = 0; row < sizeof(mat4); row++) {
-		for (int col = 0; col < sizeof(mat4[0]); col++) {
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 4;  col++) {
 			mat4[row][col] = transpose.mat4[row][col];
 		}
 	}
