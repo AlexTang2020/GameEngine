@@ -7,11 +7,11 @@ public:
 	const unsigned int SCR_HEIGHT = 600;
 	RenderManager()
 	{
-		// do nothing
+		std::cout << "RenderManager created\n";
 	}
 	~RenderManager()
 	{
-		// do nothing
+		std::cout << "RenderManager destroyed\n";
 	}
 
 	void GLFWSetUp();

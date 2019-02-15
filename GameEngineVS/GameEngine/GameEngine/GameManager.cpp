@@ -4,28 +4,29 @@ class GameManager
 {
 public:
 	RenderManager rendManager;
-
 	GameManager()
 	{
-		// do nothing
+		std::cout << "Engine created\n";
 	}
 	~GameManager()
 	{
-		// do nothing
+		std::cout << "Engine destroyed\n";
 	}
 
 	void run() {	
+		std::cout << "RenderManager start\n";
 		rendManager.run();
+		std::cout << "RenderManager shutdown\n";
 	}
 };
 
 GameManager gameManager;
-RenderManager gRenderManager;
-
 
 int main(int argc, const char* argv)
 {
 	// Start up engine systems in the correct order.
+	std::cout << "Engine startup\n";
 	gameManager.run();
+	std::cout << "Engine shutdown\n";
 	return 0;
 }
