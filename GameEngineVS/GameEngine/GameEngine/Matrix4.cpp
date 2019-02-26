@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 
 #include "Matrix4.h"
+#include "Header.h"
 #include <cmath>
 
 Matrix4::Matrix4()
@@ -106,9 +107,6 @@ void Matrix4::rotateZ(float angle)
 void Matrix4::concatenate(Matrix4 & right)
 {
 	float copy[4][4];
-
-	
-
 	for (int i = 0; i < 4; i++) {
 		copy[0][0] += (mat4[0][i] * right.mat4[i][0]);
 		copy[0][1] += (mat4[0][i] * right.mat4[i][1]);
@@ -129,5 +127,14 @@ void Matrix4::concatenate(Matrix4 & right)
 		copy[3][1] += (mat4[3][i] * right.mat4[i][1]);
 		copy[3][2] += (mat4[3][i] * right.mat4[i][2]);
 		copy[3][3] += (mat4[3][i] * right.mat4[i][3]);
+	}
+}
+	
+void printMatrix4(Matrix4 matrix){
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 4; col++) {
+			std::cout << matrix.mat4[row][col] << " ";
+		}
+		std::cout << "\n";
 	}
 }

@@ -52,31 +52,39 @@ int main(int argc, const char* argv)
 	Point3D pos3 = pos1 + vec2;
 	std::cout << pos3.x << "," << pos3.y << "," << pos3.z << "," << pos3.w << "\n";
 
-	std::cout << "Matrix work start\n";
+	std::cout << "Matrix 1 and 2 work start\n";
 	Matrix4 mat1 = Matrix4();
+	printMatrix4(mat1);
 	Matrix4 mat2 = Matrix4();
-	std::cout << "Matrix empty\n";
+	//printMatrix4(mat2);
+	std::cout << "Matrix 1 and 2 empty\n";
 	mat1.setIdentity();
 	mat2.setIdentity();
-	std::cout << "Matrix identity\n";
+	std::cout << "Matrix 1 and 2 identity set\n";
+	//printMatrix4(mat1);
+	//printMatrix4(mat2);
 
 	mat1.translate(1.f,1.f,1.f);
 	
 	mat2.scale(2.f,2.f,2.f);
-	std::cout << "Matrix translate and scale\n";
+	std::cout << "Matrix 1 translate and Matrix 2 scale\n";
+	//printMatrix4(mat1);
+	//printMatrix4(mat2);
 
 	//Need to fix transpose, reading violation, also check matrix math, swap to simd if possible
 	
 	mat1.transpose();
 	std::cout << "Matrix transpose\n";
+	//printMatrix4(mat1);
 
 	mat1.transpose();
 	mat1.inverse();
 	std::cout << "Matrix inverse\n";
+	//printMatrix4(mat1);
 
 	mat1.concatenate(mat2);
 	std::cout << "Matrix concatenate\n";
-	
+	//printMatrix4(mat1);
 	//Testing code for Memory Allocation
 
 	std::cout << "Engine startup\n";

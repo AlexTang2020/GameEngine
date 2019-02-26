@@ -25,3 +25,5 @@ public:
 private:
 
 };
+
+void printMatrix4(Matrix4 mat4);
