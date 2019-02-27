@@ -31,6 +31,7 @@ Vector3D* MemAllocator::vecAlloc() {
 		vecAddr.pop_back();
 		return myVector;
 	}
+	return nullptr;
 }
 Point3D* MemAllocator::posAlloc() {
 	if (!posMemory.empty()) {
@@ -38,6 +39,7 @@ Point3D* MemAllocator::posAlloc() {
 		posAddr.pop_back();
 		return myPoint;
 	}
+	return nullptr;
 }
 Quaternion* MemAllocator::quatAlloc() {
 	if (!quatMemory.empty()) {
@@ -45,6 +47,7 @@ Quaternion* MemAllocator::quatAlloc() {
 		quatAddr.pop_back();
 		return myQuaternion;
 	}
+	return nullptr;
 }
 Matrix4* MemAllocator::matAlloc() {
 	if (!matMemory.empty()) {
@@ -52,6 +55,7 @@ Matrix4* MemAllocator::matAlloc() {
 		matAddr.pop_back();
 		return myMatrix;
 	}
+	return nullptr;
 }
 
 

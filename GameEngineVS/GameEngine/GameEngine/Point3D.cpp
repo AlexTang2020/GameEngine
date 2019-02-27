@@ -30,7 +30,7 @@ void Point3D::concatenate(Matrix4 & right)
 	float vx = x;
 	float vy = y;
 	float vz = z;
-	float vw = w;
+	int vw = w;
 
 	x = vx * right.mat4[0][0] + vy * right.mat4[1][0] + vz * right.mat4[2][0] + vw * right.mat4[3][0];
 	y = vx * right.mat4[0][1] + vy * right.mat4[1][1] + vz * right.mat4[2][1] + vw * right.mat4[3][1];
