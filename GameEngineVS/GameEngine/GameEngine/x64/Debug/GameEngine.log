@@ -1,2 +1,5 @@
-﻿  GameManager.cpp
+﻿  Quaternion.cpp
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\quaternion.cpp(90): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\quaternion.cpp(91): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\quaternion.cpp(119): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   GameEngine.vcxproj -> C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe

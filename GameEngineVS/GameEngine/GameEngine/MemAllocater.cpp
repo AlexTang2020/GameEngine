@@ -83,5 +83,16 @@ void MemAllocator::matFree(Matrix4 mat) {
 
 
 void MemAllocator::resetAll() {
+	while (vecAddr.size() < vSize) {
 
+	}
+	while (posAddr.size() < pSize) {
+
+	}
+	while (quatAddr.size() < qSize) {
+
+	}
+	while (matAddr.size() < mSize) {
+
+	}
 }

@@ -24,10 +24,10 @@ Quaternion Quaternion::operator-(Quaternion const & right)
 
 Quaternion Quaternion::operator*(Quaternion const & right)
 {
-	return Quaternion(qw*right.qw - qx * right.qx - qy * right.qy - qz * right.qz,
-		qw*right.qx + qx * right.qw + qy * right.qz - qz * right.qy,
+	return Quaternion(qw*right.qx + qx * right.qw + qy * right.qz - qz * right.qy,
 		qw*right.qy + qy * right.qw + qz * right.qx - qx * right.qz,
-		qw*right.qz + qz * right.qw + qx * right.qy - qy * right.qx);
+		qw*right.qz + qz * right.qw + qx * right.qy - qy * right.qx,
+		qw*right.qw - qx * right.qx - qy * right.qy - qz * right.qz);
 }
 
 
@@ -51,10 +51,11 @@ Quaternion Quaternion::operator-=(Quaternion const & right)
 
 Quaternion Quaternion::operator*=(Quaternion const & right)
 {
-	qx = qw * right.qw - qx * right.qx - qy * right.qy - qz * right.qz;
-	qy = qw * right.qx + qx * right.qw + qy * right.qz - qz * right.qy;
-	qz = qw * right.qy + qy * right.qw + qz * right.qx - qx * right.qz;
-	qw = qw * right.qz + qz * right.qw + qx * right.qy - qy * right.qx;
+	qx = qw * right.qx + qx * right.qw + qy * right.qz - qz * right.qy;
+	qy = qw * right.qy + qy * right.qw + qz * right.qx - qx * right.qz;
+	qz = qw * right.qz + qz * right.qw + qx * right.qy - qy * right.qx;
+	qw = qw * right.qw - qx * right.qx - qy * right.qy - qz * right.qz;
+		
 	return (*this);
 }
 
@@ -114,7 +115,9 @@ Quaternion Quaternion::conjugate()
 	return Quaternion(qx * -1, qy * -1, qz * -1, qw);
 }
 
-Vector3D Quaternion::quaternionToVector(float angle) {
+Vector3D Quaternion::quaternionToVector(float angle) {	
+	//Only function not tested, may not be used or will be remade to another function
+	//Maybe Quaternion to Euler Angle in vector form
 	return Vector3D((float) qx*sin((M_PI*angle/180.f)/2.f), (float) qy*sin((M_PI*angle / 180.f) / 2.f), (float) qz*sin((M_PI*angle/180.f)/2.f), (int) cos((M_PI*angle/180.f)/2.f));
 }
 
@@ -123,14 +126,14 @@ Matrix4 Quaternion::quaternionToMatrix4()
 	Matrix4 qToM = Matrix4();
 	qToM.mat4[0][0] = 1 - 2 * qy*qy - 2 * qz*qz;
 	qToM.mat4[0][1] = 2 * qx*qy - 2 * qz*qw;
-	qToM.mat4[0][2] = 2 * qx*qz - 2 * qy*qw;
+	qToM.mat4[0][2] = 2 * qx*qz + 2 * qy*qw;
 	
-	qToM.mat4[1][0] = 2 * qx*qy - 2 * qz*qw;
+	qToM.mat4[1][0] = 2 * qx*qy + 2 * qz*qw;
 	qToM.mat4[1][1] = 1 - 2 * qx*qx - 2 * qz*qz;
-	qToM.mat4[1][2] = 2 * qy*qz + 2 * qx*qw;
+	qToM.mat4[1][2] = 2 * qy*qz - 2 * qx*qw;
 	
-	qToM.mat4[2][0] = 2 * qx*qx + 2 * qy*qw;
-	qToM.mat4[2][1] = 2 * qy*qz - 2 * qx*qw;
+	qToM.mat4[2][0] = 2 * qx*qz - 2 * qy*qw;
+	qToM.mat4[2][1] = 2 * qy*qz + 2 * qx*qw;
 	qToM.mat4[2][2] = 1 - 2 * qx*qx - 2 * qy*qy;
 
 	return qToM;
