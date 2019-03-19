@@ -155,6 +155,7 @@
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="Vertex3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Vertex3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="frag.shader" />

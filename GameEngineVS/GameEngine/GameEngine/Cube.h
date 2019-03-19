@@ -1,5 +1,6 @@
 #pragma once
 #include "shader.h"
+#include "Vertex3D.h"
 
 class Cube {
 public:
