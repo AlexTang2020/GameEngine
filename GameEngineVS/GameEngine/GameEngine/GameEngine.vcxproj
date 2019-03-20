@@ -168,6 +168,7 @@
     <ClInclude Include="Quad.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="shader.h" />

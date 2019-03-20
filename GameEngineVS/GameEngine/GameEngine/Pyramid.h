@@ -5,26 +5,16 @@
 class Pyramid
 {
 public:
+	static const int numVertices = 5;
+	static const int numIndices = 5;
+	int indices[numIndices];
+	Vertex3D vertices[numVertices];
+
 	Pyramid();
 	~Pyramid();
-
-	int vertices[15] = { 0.5f, 0.0f, 0.5f,
-						-0.5f, 0.0f, 0.5f, 
-						-0.5f, 0.0f, -0.5f, 
-						0.5f, 0.0f, -0.5f, 
-						0.0f, 0.5f, 0.0f };
-	int indicees[5] = {0, 1, 2, 3, 4};
 
 	void loadPyramid(GLuint VAO, GLuint VBO, GLuint EBO);
 	void deletePyramid(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
 private:
 
 };
-
-Pyramid::Pyramid()
-{
-}
-
-Pyramid::~Pyramid()
-{
-}

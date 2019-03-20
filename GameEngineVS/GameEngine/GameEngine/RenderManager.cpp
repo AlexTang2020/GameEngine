@@ -1,6 +1,4 @@
-#include "Header.h"
-
-
+#include "RenderManager.h"
 using namespace std;
 
 // settings
@@ -92,6 +90,36 @@ void RenderManager::processInput(GLFWwindow *window)
 		glfwSetWindowShouldClose(window, true);
 }
 
+void RenderManager::loadTexture()
+{
+	// load and create a texture 
+	// -------------------------
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// load image, create texture and generate mipmaps
+	int width, height, nrChannels;
+	// The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+	unsigned char *data = stbi_load("", &width, &height, &nrChannels, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data);
+	//Credit for image handling goes to https://github.com/nothings/stb/blob/master/stb_image.h
+}
+
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -125,6 +153,7 @@ int RenderManager::run()
 	// ------------------------------------------------------------------
 	
 	Cube cube{};
+	//Sphere sphere{};
 
 	unsigned int VBO, VAO, EBO;
 	//Initialized buffers
@@ -133,12 +162,14 @@ int RenderManager::run()
 	glGenBuffers(1, &EBO);
 
 	cube.loadCube(VAO,VBO,EBO);
+	//sphere.loadSphere(VAO,VBO,EBO);
 
 	display(window, ourShader, VAO);
 
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
 	cube.deleteCube(VAO, VBO, EBO, 1, 1, 1);
+	//phere.deleteSphere(VAO,VBO,EBO,1,1,1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

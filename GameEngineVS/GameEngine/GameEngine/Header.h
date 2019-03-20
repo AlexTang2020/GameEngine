@@ -1,6 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "stb_image.h"
 #include <iostream>
 #include <string>
 #include <stdlib.h>
@@ -10,6 +11,8 @@
 #include "shader.h"
 #include "Cube.h"
 #include "Sphere.h"
+#include "Quad.h"
+#include "Pyramid.h"
 
 #include "Vector3D.h"
 #include "Point3D.h"

@@ -29,3 +29,11 @@ void Cube::deleteCube(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb
 		glDeleteBuffers(vb, &VBO);
 		glDeleteBuffers(eb, &EBO);
 }
+
+Cube::Cube()
+{
+}
+
+Cube::~Cube()
+{
+}

@@ -8,8 +8,10 @@ public:
 	Quad();
 	~Quad();
 
-	Vertex3D vertices[5];
-	int indices[4] = {0, 1, 2, 3};
+	static const int numVertices = 4;
+	static const int numIndices = 4;
+	int indices[numIndices];
+	Vertex3D vertices[numVertices];
 
 	void loadQuad(GLuint VAO, GLuint VBO, GLuint EBO);
 	void deleteQuad(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
@@ -17,11 +19,3 @@ public:
 private:
 
 };
-
-Quad::Quad()
-{
-}
-
-Quad::~Quad()
-{
-}

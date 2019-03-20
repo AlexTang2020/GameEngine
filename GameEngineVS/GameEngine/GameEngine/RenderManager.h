@@ -1,4 +1,5 @@
 #pragma once
+#include "Header.h"
 class RenderManager
 {
 public:
@@ -24,7 +25,8 @@ public:
 
 	void display(GLFWwindow* window, Shader ourShader, int VAO);
 	void processInput(GLFWwindow *window);
-	
+	void loadTexture();
+
 	int run();
 };
 

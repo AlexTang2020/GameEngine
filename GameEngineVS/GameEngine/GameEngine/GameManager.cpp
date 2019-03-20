@@ -26,7 +26,7 @@ int main(int argc, const char* argv)
 {
 	
 	//Testing code for Math Library
-	
+	/*
 	Vector3D vec1 = Vector3D(1, 3, -2);
 	Vector3D vec2 = Vector3D(5, 1, 7);
 	Point3D pos1 = Point3D(1, 2, 3);
@@ -52,7 +52,7 @@ int main(int argc, const char* argv)
 	std::cout << vec5.x << "," << vec5.y << "," << vec5.z << "," << vec5.w << "\n";
 	Point3D pos3 = pos1 + vec2;
 	std::cout << pos3.x << "," << pos3.y << "," << pos3.z << "," << pos3.w << "\n";
-	*/
+	
 	std::cout << "Matrix 1 and 2 work start\n";
 	Matrix4 mat1 = Matrix4();
 	Matrix4 mat2 = Matrix4();
@@ -79,7 +79,7 @@ int main(int argc, const char* argv)
 	//q3 = q3.inverse();
 	//std::cout << q3.qx << "," << q3.qy << "," << q3.qz << "," << q3.qw << "\n";
 
-	/*
+	
 	mat1.rotateZ(45);
 	printMatrix4(mat1);
 	
@@ -114,6 +114,7 @@ int main(int argc, const char* argv)
 	printMatrix4(mat1);
 	//Testing code for Memory Allocation
 	*/
+	
 	std::cout << "Engine startup\n";
 	gameManager.run();
 	std::cout << "Engine shutdown\n";

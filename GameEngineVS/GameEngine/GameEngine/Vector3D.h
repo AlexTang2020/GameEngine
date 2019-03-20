@@ -11,7 +11,6 @@ public:
 	int w = 0;
 
 	Vector3D();
-
 	explicit Vector3D(float x, float y, float z, int w = 0);
 
 	float Magnitude() const;		//gets the magnitude

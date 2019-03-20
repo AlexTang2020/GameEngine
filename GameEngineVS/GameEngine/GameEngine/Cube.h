@@ -55,7 +55,6 @@ public:
 	
 	void loadCube(GLuint VAO, GLuint VBO, GLuint EBO);//May need to add an int
 	void deleteCube(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
-	Cube() {
-
-	}
+	Cube();
+	~Cube();
 };
