@@ -21,6 +21,7 @@ public:
 
 	// member functions
 	Vector3D operator+(Vector3D const& right);	//Return sum of two vectors
+	Vector3D operator-(Vector3D const& right);	//Return difference of two vectors
 	Vector3D operator*(float val);				//Return vector scaled by a value
 
 	void add(Vector3D const& right);			//Add a vector to the current vector

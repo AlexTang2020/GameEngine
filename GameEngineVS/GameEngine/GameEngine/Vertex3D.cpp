@@ -9,6 +9,13 @@ Vertex3D::Vertex3D(float x, float y, float z)
 	location = Point3D(x, y, z);
 }
 
+Vertex3D::Vertex3D(float x, float y, float z, float sVal, float tVal)
+{
+	location = Point3D(x, y, z);
+	setS(sVal);
+	setT(tVal);
+}
+
 Vertex3D::~Vertex3D()
 {
 }

@@ -6,7 +6,7 @@ class Pyramid
 {
 public:
 	static const int numVertices = 5;
-	static const int numIndices = 5;
+	static const int numIndices = 15;
 	int indices[numIndices];
 	Vertex3D vertices[numVertices];
 

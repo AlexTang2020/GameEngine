@@ -2,6 +2,14 @@
 
 Quad::Quad()
 {
+	vertices[0] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
+
+	vertices[1] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
+	vertices[2] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
+	vertices[3] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
+
+	indices[0];		indices[1];		indices[2];
+	indices[3];		indices[4];		indices[5];
 }
 
 Quad::~Quad()

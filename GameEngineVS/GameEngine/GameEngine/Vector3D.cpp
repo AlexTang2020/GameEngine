@@ -34,6 +34,11 @@ Vector3D Vector3D::operator+(Vector3D const &right)
 	return Vector3D(right.x + x, right.y + y, right.z + z); 
 }
 
+Vector3D Vector3D::operator-(Vector3D const &right)
+{
+	return Vector3D(right.x - x, right.y - y, right.z - z);
+}
+
 Vector3D Vector3D::operator*(float val)
 {
 	return Vector3D(val * x, val * y, val * z);

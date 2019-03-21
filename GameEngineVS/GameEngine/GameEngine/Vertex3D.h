@@ -12,6 +12,7 @@ public:
 
 	Vertex3D();
 	Vertex3D(float x, float y, float z);
+	Vertex3D(float x, float y, float z, float sVal, float tVal);
 	~Vertex3D();
 
 	void setLocation(float x, float y, float z);

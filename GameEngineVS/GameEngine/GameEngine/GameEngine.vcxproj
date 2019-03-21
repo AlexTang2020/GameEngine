@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="..\Dependencies\include\GLAD\src\glad.c" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Matrix4.cpp" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="Matrix4.h" />

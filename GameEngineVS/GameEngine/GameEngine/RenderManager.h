@@ -6,6 +6,17 @@ public:
 	// settings
 	const unsigned int SCR_WIDTH = 800;
 	const unsigned int SCR_HEIGHT = 600;
+
+	// camera
+	Camera camera = Camera( Vector3D(0.0f, 0.0f, 3.0f));
+	float lastX = SCR_WIDTH / 2.0f;
+	float lastY = SCR_HEIGHT / 2.0f;
+	bool firstMouse = true;
+
+	// timing
+	float deltaTime = 0.0f;	// time between current frame and last frame
+	float lastFrame = 0.0f;
+
 	RenderManager()
 	{
 		std::cout << "RenderManager created\n";
@@ -25,6 +36,8 @@ public:
 
 	void display(GLFWwindow* window, Shader ourShader, int VAO);
 	void processInput(GLFWwindow *window);
+	void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	void loadTexture();
 
 	int run();
