@@ -32,28 +32,67 @@ void Cube::deleteCube(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb
 
 Cube::Cube()
 {
-	vertices[0] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
+	//Front
+	vertices[0] = Vertex3D(-0.5f, -0.5f, 0.5f, 0.f, 0.f);
+	vertices[1] = Vertex3D(-0.5f, 0.5f, 0.5f, 0.f, 1.f);
+	vertices[2] = Vertex3D(0.5f, -0.5f, 0.5f, 1.f, 0.f);
 
-	vertices[1] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
-	vertices[2] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
-	vertices[3] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
-	vertices[4] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
+	vertices[3] = Vertex3D(-0.5f, 0.5f, 0.5f, 0.f, 1.f);
+	vertices[4] = Vertex3D(0.5f, -0.5f, 0.5f, 1.f, 0.f);
 	vertices[5] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
-	vertices[6] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
-	vertices[7] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
 
-	indices[0];		indices[1];		indices[2];
-	indices[3];		indices[4];		indices[5];
-	indices[6];		indices[7];		indices[8];
-	indices[9];		indices[10];		indices[11];
-	indices[12];		indices[13];		indices[14];
-	indices[15];		indices[16];		indices[17];
-	indices[18];		indices[19];		indices[20];
-	indices[21];		indices[22];		indices[23];
-	indices[24];		indices[25];		indices[26];
-	indices[27];		indices[28];		indices[29];
-	indices[30];		indices[31];		indices[32];
-	indices[33];		indices[34];		indices[35];
+	//Right
+	vertices[6] = Vertex3D(0.5f, -0.5f, 0.5f, 0.f, 0.f);
+	vertices[7] = Vertex3D(0.5f, 0.5f, 0.5f, 0.f, 1.f);
+	vertices[8] = Vertex3D(0.5f, 0.5f, -0.5f, 1.f, 1.f);
+
+	vertices[9] = Vertex3D(0.5f, 0.5f, -0.5f, 1.f, 1.f);
+	vertices[10] = Vertex3D(0.5f, -0.5f, -0.5f, 1.f, 0.f);
+	vertices[11] = Vertex3D(0.5f, -0.5f, 0.5f, 0.f, 0.f);
+
+	//Back
+	vertices[12] = Vertex3D(0.5f, -0.5f,-0.5f, 0.f, 0.f);
+	vertices[13] = Vertex3D(0.5f, 0.5f, -0.5f, 0.f, 1.f);
+	vertices[14] = Vertex3D(-0.5f, -0.5f, -0.5f, 1.f, 0.f);
+
+	vertices[15] = Vertex3D(-0.5f, -0.5f, -0.5f, 1.f, 0.f);
+	vertices[16] = Vertex3D(-0.5f, 0.5f, -0.5f, 1.f, 1.f);
+	vertices[17] = Vertex3D(0.5f, 0.5f, -0.5f, 0.f, 1.f);
+
+	//Left
+	vertices[18] = Vertex3D(-0.5f, -0.5f, -0.5f, 0.f, 0.f);
+	vertices[19] = Vertex3D(-0.5f, 0.5f, -0.5f, 0.f, 1.f);
+	vertices[20] = Vertex3D(-0.5f, 0.5f, 0.5f, 1.f, 1.f);
+
+	vertices[21] = Vertex3D(-0.5f, 0.5f, 0.5f, 1.f, 1.f);
+	vertices[22] = Vertex3D(-0.5f, -0.5f, 0.5f, 1.f, 0.f);
+	vertices[23] = Vertex3D(-0.5f, -0.5f, -0.5f, 0.f, 0.f);
+
+	//Top
+	vertices[24] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 0.f);
+	vertices[25] = Vertex3D(-0.5f, 0.5f, 0.5f, 0.f, 0.f);
+	vertices[26] = Vertex3D(-0.5f, 0.5f, -0.5f, 0.f, 1.f);
+
+	vertices[27] = Vertex3D(-0.5f, 0.5f, -0.5f, 0.f, 1.f);
+	vertices[28] = Vertex3D(0.5f, 0.5f, -0.5f, 1.f, 1.f);
+	vertices[29] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 0.f);
+
+	//Bottom
+	vertices[30] = Vertex3D(-0.5f, -0.5f, -0.5f, 0.f, 0.f);
+	vertices[31] = Vertex3D(-0.5f, -0.5f, 0.5f, 0.f, 1.f);
+	vertices[32] = Vertex3D(0.5f, -0.5f, -0.5f, 1.f, 0.f);
+
+	vertices[33] = Vertex3D(-0.5f, -0.5f, 0.5f, 0.f, 1.f);
+	vertices[34] = Vertex3D(0.5f, -0.5f, -0.5f, 1.f, 0.f);
+	vertices[35] = Vertex3D(0.5f, -0.5f, 0.5f, 1.f, 1.f);
+
+	int indices[36] = { 0, 1, 2,		3, 4, 5,		//Front
+						6, 7, 8,		9, 10, 11,		//Right
+						12, 13,	14,		15, 16,	17,		//Back
+						18, 19, 20,		21, 22, 23,		//Left
+						24, 25, 26,		27,	28, 29,		//Top
+						30, 31, 32,		33, 34, 35		//Bottom
+	};		
 }
 
 Cube::~Cube()

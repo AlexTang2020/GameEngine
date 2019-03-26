@@ -2,18 +2,24 @@
 
 Pyramid::Pyramid()
 {
-	vertices[0] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
+	vertices[0] = Vertex3D(0.f, 1.f, 0.f, .5f, 1.f);
+	vertices[1] = Vertex3D(-1.f, 0.f, 1.f, 0.f, 0.f);
+	vertices[2] = Vertex3D(1.f, 0.f, 1.f, 1.f, 0.f);
+	vertices[3] = Vertex3D(1.f, 0.f, 1.f, 0.f, 0.f);
+	vertices[4] = Vertex3D(1.f, 0.f, -1.f, 1.f, 0.f);
+	vertices[5] = Vertex3D(1.f, 0.f, -1.f, 0.f, 0.f);
+	vertices[6] = Vertex3D(-1.f, 0.f, -1.f, 1.f, 0.f);
+	vertices[7] = Vertex3D(-1.f, 0.f, -1.f, 0.f, 0.f);
+	vertices[8] = Vertex3D(-1.f, 0.f, 1.f, 1.f, 0.f);
+	vertices[9] = Vertex3D(-1.f, 0.f, -1.f, 0.f, 1.f);
+	vertices[10] = Vertex3D(1.f, 0.f, -1.f, 1.f, 1.f);
 
-	vertices[1] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
-	vertices[2] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
-	vertices[3] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
-	vertices[4] = Vertex3D(0.5f, 0.5f, 0.5f, 1.f, 1.f);
-
-	indices[0];		indices[1];		indices[2];
-	indices[3];		indices[4];		indices[5];
-	indices[6];		indices[7];		indices[8];
-	indices[9];		indices[10];		indices[11];
-	indices[12];		indices[13];		indices[14];
+	indices[0] = 0;		indices[1] = 1;		indices[2] = 2;		//Front Triangle
+	indices[3] = 0;		indices[4] = 3;		indices[5] = 4;		//Right Triangle
+	indices[6] = 0;		indices[7] = 5;		indices[8] = 6;		//Back Triangle
+	indices[9] = 0;		indices[10] = 7;	indices[11] = 8;	//Left Triangle
+	indices[12] = 9;	indices[13] = 1;	indices[14] = 2;	//Bottom Front Left Triangle
+	indices[15] = 9;	indices[16] = 10;	indices[17] = 2;	//Bottom Back Right Triangle
 }
 
 Pyramid::~Pyramid()
