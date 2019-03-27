@@ -1,7 +1,10 @@
 #include "Quad.h"
 
+
 Quad::Quad()
 {
+	bufferCount++;
+
 	vertices[0] = Vertex3D(-1.f, -0.5f, 0.f, 0.f, 0.f);
 	vertices[1] = Vertex3D(-1.f, 0.5f, 0.f, 0.f, 1.f);
 	vertices[2] = Vertex3D(1.f, 0.5f, 0.f, 1.f, 1.f);
@@ -42,4 +45,6 @@ void Quad::deleteQuad(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb
 	glDeleteVertexArrays(va, &VAO);
 	glDeleteBuffers(vb, &VBO);
 	glDeleteBuffers(eb, &EBO);
+	bufferCount--;
+
 }

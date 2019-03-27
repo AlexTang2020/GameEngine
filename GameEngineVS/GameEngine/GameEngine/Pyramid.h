@@ -1,12 +1,14 @@
 #pragma once
 #include "shader.h"
 #include "Vertex3D.h"
+#include "RenderManager.h"
+
 
 class Pyramid
 {
 public:
-	static const int numVertices = 5;
-	static const int numIndices = 15;
+	static const int numVertices = 11;
+	static const int numIndices = 18;
 	int indices[numIndices];
 	Vertex3D vertices[numVertices];
 

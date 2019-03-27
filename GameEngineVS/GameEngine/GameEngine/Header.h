@@ -18,7 +18,7 @@
 #include "Point3D.h"
 #include "Matrix4.h"
 #include "Quaternion.h"
-#include "Camera.h"
+//#include "Camera.h"
 
 #include "RenderManager.h"
 #include "AudioManager.h"

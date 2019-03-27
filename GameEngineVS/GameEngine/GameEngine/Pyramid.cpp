@@ -2,6 +2,8 @@
 
 Pyramid::Pyramid()
 {
+	bufferCount++;
+
 	vertices[0] = Vertex3D(0.f, 1.f, 0.f, .5f, 1.f);
 	vertices[1] = Vertex3D(-1.f, 0.f, 1.f, 0.f, 0.f);
 	vertices[2] = Vertex3D(1.f, 0.f, 1.f, 1.f, 0.f);
@@ -55,4 +57,6 @@ void Pyramid::deletePyramid(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, 
 	glDeleteVertexArrays(va, &VAO);
 	glDeleteBuffers(vb, &VBO);
 	glDeleteBuffers(eb, &EBO);
+	bufferCount--;
+
 }

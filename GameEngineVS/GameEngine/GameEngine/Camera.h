@@ -1,6 +1,6 @@
 #pragma once
 #include "Header.h"
-
+/*
 class Camera
 {
 public:
@@ -49,3 +49,4 @@ const float PITCH = 0.0f;
 const float SPEED = 2.5f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
+*/

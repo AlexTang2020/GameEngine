@@ -1,6 +1,8 @@
 #pragma once
 #include "shader.h"
 #include "Vertex3D.h"
+#include "RenderManager.h"
+
 
 class Sphere
 {

@@ -1,5 +1,5 @@
 #define _USE_MATH_DEFINES
-
+/*
 #include "Camera.h"
 Camera::Camera()
 {
@@ -132,3 +132,4 @@ void Camera::updateCameraVectors()
 	Up = (Cross(Right, Front)).Normal();
 }
 
+*/

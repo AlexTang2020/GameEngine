@@ -4,6 +4,8 @@
 
 
 Sphere::Sphere() {
+	bufferCount++;
+
 	for (int i = 0; i < numVertices; i++) {
 		vertices[i] = Vertex3D();
 	}
@@ -112,4 +114,6 @@ void Sphere::deleteSphere(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, in
 	glDeleteVertexArrays(va, &VAO);
 	glDeleteBuffers(vb, &VBO);
 	glDeleteBuffers(eb, &EBO);
+	bufferCount--;
+
 }

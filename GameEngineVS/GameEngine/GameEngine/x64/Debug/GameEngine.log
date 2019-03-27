@@ -1,50 +1,10 @@
-﻿  Camera.cpp
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C3646: 'camera': unknown override specifier
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C2059: syntax error: '='
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C2238: unexpected token(s) preceding ';'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(28): error C2061: syntax error: identifier 'Camera_Movement'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(44): warning C4091: 'static ': ignored on left of 'Camera_Movement' when no variable is declared
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(48): error C2082: redefinition of formal parameter 'up'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(77): error C2511: 'void Camera::ProcessKeyboard(Camera_Movement,float)': overloaded member function not found in 'Camera'
-  c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(4): note: see declaration of 'Camera'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(78): error C2597: illegal reference to non-static member 'Camera::MovementSpeed'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(78): error C3867: 'Camera::MovementSpeed': non-standard syntax; use '&' to create a pointer to member
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(80): error C2597: illegal reference to non-static member 'Camera::Front'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(80): error C3867: 'Camera::Front': non-standard syntax; use '&' to create a pointer to member
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(82): error C2597: illegal reference to non-static member 'Camera::Front'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(82): error C3867: 'Camera::Front': non-standard syntax; use '&' to create a pointer to member
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(84): error C2597: illegal reference to non-static member 'Camera::Right'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(84): error C3867: 'Camera::Right': non-standard syntax; use '&' to create a pointer to member
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(86): error C2597: illegal reference to non-static member 'Camera::Right'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(86): error C3867: 'Camera::Right': non-standard syntax; use '&' to create a pointer to member
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(126): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(127): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.cpp(128): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿  Cube.cpp
   GameManager.cpp
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(28): error C2061: syntax error: identifier 'Camera_Movement'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(44): warning C4091: 'static ': ignored on left of 'Camera_Movement' when no variable is declared
   Matrix4.cpp
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(28): error C2061: syntax error: identifier 'Camera_Movement'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(44): warning C4091: 'static ': ignored on left of 'Camera_Movement' when no variable is declared
   MemAllocater.cpp
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(28): error C2061: syntax error: identifier 'Camera_Movement'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(44): warning C4091: 'static ': ignored on left of 'Camera_Movement' when no variable is declared
+  Pyramid.cpp
+  Quad.cpp
   RenderManager.cpp
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(28): error C2061: syntax error: identifier 'Camera_Movement'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(44): warning C4091: 'static ': ignored on left of 'Camera_Movement' when no variable is declared
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(89): error C2660: 'Camera::ProcessKeyboard': function does not take 2 arguments
-  c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(28): note: see declaration of 'Camera::ProcessKeyboard'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(91): error C2660: 'Camera::ProcessKeyboard': function does not take 2 arguments
-  c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(28): note: see declaration of 'Camera::ProcessKeyboard'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(93): error C2660: 'Camera::ProcessKeyboard': function does not take 2 arguments
-  c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(28): note: see declaration of 'Camera::ProcessKeyboard'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(95): error C2660: 'Camera::ProcessKeyboard': function does not take 2 arguments
-  c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\camera.h(28): note: see declaration of 'Camera::ProcessKeyboard'
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(141): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(142): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(146): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(147): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(149): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(150): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(157): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Sphere.cpp
   Generating Code...
+  GameEngine.vcxproj -> C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe

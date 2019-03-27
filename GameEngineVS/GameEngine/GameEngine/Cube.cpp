@@ -1,19 +1,53 @@
 #include "Cube.h"
 
-
-void Cube::loadCube(GLuint VAO, GLuint VBO, GLuint EBO)
+void Cube::loadCube()
 {
+	/*
+	float pvalues[numIndices * 3];
+	float tvalues[numIndices * 2];
+	//float nvalues[numIndices * 3];
+
+
+	for (int i = 0; i < numIndices; i++)
+	{
+		pvalues[i * 3] = (float)(vertices[indices[i]]).location.x;
+		pvalues[i * 3 + 1] = (float)(vertices[indices[i]]).location.y;
+		pvalues[i * 3 + 2] = (float)(vertices[indices[i]]).location.z;
+		tvalues[i * 2] = (float)(vertices[indices[i]]).s;
+		tvalues[i * 2 + 1] = (float)(vertices[indices[i]]).t;
+		//nvalues[i * 3] = (float)(vertices[indices[i]]).normal.x;
+		//nvalues[i * 3 + 1] = (float)(vertices[indices[i]]).normal.y;
+		//nvalues[i * 3 + 2] = (float)(vertices[indices[i]]).normal.z;
+	}
+	*/
+
+	//Initialized buffers
+	//glGenVertexArrays(buffer, &VAO);
+	//glGenBuffers(buffer, &VBO);
+	//glGenBuffers(buffer, &EBO);
+
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	// vertex positions
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)0);
+	// vertex texture coords
+	//glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, s));
+	// vertex normals
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, normal));
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -32,6 +66,8 @@ void Cube::deleteCube(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb
 
 Cube::Cube()
 {
+	bufferCount++;
+	buffer = bufferCount;
 	//Front
 	vertices[0] = Vertex3D(-0.5f, -0.5f, 0.5f, 0.f, 0.f);
 	vertices[1] = Vertex3D(-0.5f, 0.5f, 0.5f, 0.f, 1.f);
@@ -93,8 +129,11 @@ Cube::Cube()
 						24, 25, 26,		27,	28, 29,		//Top
 						30, 31, 32,		33, 34, 35		//Bottom
 	};		
+
+	loadCube();
 }
 
 Cube::~Cube()
 {
+
 }

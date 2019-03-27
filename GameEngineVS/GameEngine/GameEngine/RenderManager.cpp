@@ -45,7 +45,7 @@ void RenderManager::assignBuffers(GLuint VAO, GLuint VBO, GLuint EBO, int va, in
 }
 
 
-void RenderManager::display(GLFWwindow* window, Shader ourShader, int VAO) {
+void RenderManager::display(GLFWwindow* window, Shader ourShader) {
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -67,7 +67,7 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, int VAO) {
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
-		glDrawElements(GL_TRIANGLES, 144, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		// glBindVertexArray(0); // no need to unbind it every time 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -84,7 +84,7 @@ void RenderManager::processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
-
+/*
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		camera.ProcessKeyboard(FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -93,10 +93,12 @@ void RenderManager::processInput(GLFWwindow *window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+*/
 }
 
 void RenderManager::loadTexture()
 {
+	/*
 	// load and create a texture 
 	// -------------------------
 	unsigned int texture;
@@ -123,6 +125,7 @@ void RenderManager::loadTexture()
 	}
 	stbi_image_free(data);
 	//Credit for image handling goes to https://github.com/nothings/stb/blob/master/stb_image.h
+	*/
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -136,6 +139,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void RenderManager::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 {
+	/*
 	if (firstMouse)
 	{
 		lastX = xpos;
@@ -150,11 +154,12 @@ void RenderManager::mouse_callback(GLFWwindow * window, double xpos, double ypos
 	lastY = ypos;
 
 	camera.ProcessMouseMovement(xoffset, yoffset);
+	*/
 }
 
 void RenderManager::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 {
-	camera.ProcessMouseScroll(yoffset);
+	//camera.ProcessMouseScroll(yoffset);
 }
 
 int RenderManager::run()
@@ -182,21 +187,14 @@ int RenderManager::run()
 	
 	Cube cube{};
 	//Sphere sphere{};
-
-	unsigned int VBO, VAO, EBO;
-	//Initialized buffers
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	cube.loadCube(VAO,VBO,EBO);
 	//sphere.loadSphere(VAO,VBO,EBO);
 
-	display(window, ourShader, VAO);
+	display(window, ourShader);
 
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
 	cube.deleteCube(VAO, VBO, EBO, 1, 1, 1);
+		//cube.buffer, cube.buffer, cube.buffer);
 	//phere.deleteSphere(VAO,VBO,EBO,1,1,1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
