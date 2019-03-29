@@ -9,8 +9,8 @@ public:
 	static const int numVertices = 36;
 	static const int numIndices = 36;
 	Vertex3D vertices[numVertices];
-	int indices[numIndices];
-	int buffer;
+	unsigned int indices[numIndices];
+	int bufferID;
 
 	/*
 	float vertices[144] = { -0.5f, -0.5f, -0.5f,

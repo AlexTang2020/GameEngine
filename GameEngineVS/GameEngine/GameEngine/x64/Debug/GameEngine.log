@@ -1,10 +1,2 @@
-﻿  Cube.cpp
-  GameManager.cpp
-  Matrix4.cpp
-  MemAllocater.cpp
-  Pyramid.cpp
-  Quad.cpp
-  RenderManager.cpp
-  Sphere.cpp
-  Generating Code...
+﻿  RenderManager.cpp
   GameEngine.vcxproj -> C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe
