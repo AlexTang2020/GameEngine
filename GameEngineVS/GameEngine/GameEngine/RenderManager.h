@@ -34,7 +34,7 @@ public:
 	void assignBuffers(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
 
 
-	void display(GLFWwindow* window, Shader ourShader);
+	void display(GLFWwindow* window, Shader ourShader, GLuint vao);
 	void processInput(GLFWwindow *window);
 	void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -43,7 +43,5 @@ public:
 	int run();
 };
 
-static int bufferCount = 0;
-static unsigned int VBO, VAO, EBO = 0;
 int GLFWwindowCheck(GLFWwindow* window);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

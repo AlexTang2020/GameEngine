@@ -12,7 +12,7 @@ public:
 
 	static const int numVertices = 4;
 	static const int numIndices = 6;
-	int indices[numIndices];
+	unsigned int indices[numIndices];
 	Vertex3D vertices[numVertices];
 
 	void loadQuad(GLuint VAO, GLuint VBO, GLuint EBO);

@@ -3,15 +3,14 @@
 
 Quad::Quad()
 {
-	bufferCount++;
+	//Makes a triangle for some reason (maybe camera)
+	vertices[0] = Vertex3D(-0.5f, -0.5f, 0.f, 0.f, 0.f);
+	vertices[1] = Vertex3D(-0.5f, 0.5f, 0.f, 0.f, 1.f);
+	vertices[2] = Vertex3D(0.5f, 0.5f, 0.f, 1.f, 1.f);
+	vertices[3] = Vertex3D(0.5f, -0.5f, 0.f, 1.f, 0.f);
 
-	vertices[0] = Vertex3D(-1.f, -0.5f, 0.f, 0.f, 0.f);
-	vertices[1] = Vertex3D(-1.f, 0.5f, 0.f, 0.f, 1.f);
-	vertices[2] = Vertex3D(1.f, 0.5f, 0.f, 1.f, 1.f);
-	vertices[3] = Vertex3D(1.f, -0.5f, 0.f, 0.f, 1.f);
-
-	indices[0] = 0;		indices[1] = 1;		indices[2] = 2;		//Top Left Triangle
-	indices[3] = 0;		indices[4] = 2;		indices[5] = 3;		//Bottom Right Triangle
+	indices[0] = (unsigned int)0;		indices[1] = (unsigned int)1;		indices[2] = (unsigned int)2;		//Top Left Triangle
+	indices[3] = (unsigned int)0;		indices[4] = (unsigned int)3;		indices[5] = (unsigned int)2;		//Bottom Right Triangle
 }
 
 Quad::~Quad()
@@ -29,8 +28,15 @@ void Quad::loadQuad(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(Vertex3D), (void*)0);
+
+	// vertex texture coords
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, s));
+	// vertex normals
+	//glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, normal));
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -45,6 +51,4 @@ void Quad::deleteQuad(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb
 	glDeleteVertexArrays(va, &VAO);
 	glDeleteBuffers(vb, &VBO);
 	glDeleteBuffers(eb, &EBO);
-	bufferCount--;
-
 }

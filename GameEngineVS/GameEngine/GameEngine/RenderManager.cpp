@@ -1,3 +1,5 @@
+#define STB_IMAGE_IMPLEMENTATION
+
 #include "RenderManager.h"
 using namespace std;
 
@@ -45,7 +47,7 @@ void RenderManager::assignBuffers(GLuint VAO, GLuint VBO, GLuint EBO, int va, in
 }
 
 
-void RenderManager::display(GLFWwindow* window, Shader ourShader) {
+void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -60,13 +62,13 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader) {
 		// render
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
 		// draw our first triangle
 		ourShader.use();
-
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
 		// glBindVertexArray(0); // no need to unbind it every time 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -97,7 +99,7 @@ void RenderManager::processInput(GLFWwindow *window)
 
 void RenderManager::loadTexture()
 {
-	/*
+	
 	// load and create a texture 
 	// -------------------------
 	unsigned int texture;
@@ -111,8 +113,9 @@ void RenderManager::loadTexture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load image, create texture and generate mipmaps
 	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
 	// The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-	unsigned char *data = stbi_load("", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("animeFood.png", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -124,7 +127,7 @@ void RenderManager::loadTexture()
 	}
 	stbi_image_free(data);
 	//Credit for image handling goes to https://github.com/nothings/stb/blob/master/stb_image.h
-	*/
+	
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -177,69 +180,36 @@ int RenderManager::run()
 		return -1;
 	}
 	
+	glEnable(GL_DEPTH_TEST);
+
 	// build and compile our shader program
 	// ------------------------------------
 	Shader ourShader("vert.shader", "frag.shader"); // you can name your shader files however you like
 
-	// set up vertex data (and buffer(s)) and configure vertex attributes
-	// ------------------------------------------------------------------
-	/*
-	glGenVertexArrays(1, &VAO);		//More VAO's is easier to handle multiple objects but more draw calls
-	glGenBuffers(1, &VBO);			//More VBO's means less draw calls
-	glGenBuffers(1, &EBO);
+	
+    unsigned int VBO, VAO, EBO;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+   
+	//Cube cube{};
+	//cube.loadCube(VAO,VBO,EBO);
+	//Quad quad{};
+	//quad.loadQuad(VAO, VBO, EBO);
+	//Pyramid pyr{};
+	//pyr.loadPyramid(VAO,VBO,EBO);
+	Sphere sph{};
+	sph.loadSphere(VAO,VBO,EBO);
+	loadTexture();
 
-	Cube cube{};
-	//Sphere sphere{};
-	//sphere.loadSphere(VAO,VBO,EBO);
-	*/
-
-	// set up vertex data (and buffer(s)) and configure vertex attributes
-   // ------------------------------------------------------------------
-	float vertices[] = {
-		 0.5f,  0.5f, 0.0f,  // top right
-		 0.5f, -0.5f, 0.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f,  // bottom left
-		-0.5f,  0.5f, 0.0f   // top left 
-	};
-	unsigned int indices[] = {  // note that we start from 0!
-		0, 1, 3,  // first Triangle
-		1, 2, 3   // second Triangle
-	};
-	unsigned int VBO, VAO, EBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-	glBindVertexArray(0);
-
-	display(window, ourShader);
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	display(window, ourShader, VAO);
+	
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
 	//cube.deleteCube(VAO, VBO, EBO, 1, 1, 1);
-		//cube.buffer, cube.buffer, cube.buffer);
-	//phere.deleteSphere(VAO,VBO,EBO,1,1,1);
+	//quad.deleteQuad(VAO, VBO, EBO,1,1,1);
+	//pyr.deletePyramid(VAO,VBO,EBO,1,1,1);
+	sph.deleteSphere(VAO,VBO,EBO,1,1,1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
