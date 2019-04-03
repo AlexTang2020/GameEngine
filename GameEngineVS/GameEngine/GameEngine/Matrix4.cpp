@@ -13,6 +13,11 @@ Matrix4::Matrix4()
 	}
 }
 
+Matrix4:: ~Matrix4() {
+
+}
+
+
 void Matrix4::setIdentity()
 {
 	for (int diag = 0; diag < 4; diag++) {
@@ -186,7 +191,19 @@ void Matrix4::concatenate(Matrix4 & right)
 		}
 	}
 }
-	
+
+float* value_ptr(Matrix4 mat) {
+	float arr[16];
+	int i = 0;
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 4; col++) {
+			arr[i] = mat.mat4[row][col];
+			i++;
+		}
+	}
+	return &arr[0];
+}
+
 void printMatrix4(Matrix4 matrix){
 	for (int row = 0; row < 4; row++) {
 		for (int col = 0; col < 4; col++) {

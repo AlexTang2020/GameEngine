@@ -38,10 +38,10 @@ private:
 };
 
 // free standing functions
-float Dot(Vector3D const & right, Vector3D const & left);
-Vector3D Cross(Vector3D const & left, Vector3D const & right);
+float Dot(Vector3D const & right, Vector3D const & left);		//Return dot product of two vectors
+Vector3D Cross(Vector3D const & left, Vector3D const & right);	//Return cross product of two vectors
 
-Vector3D Lerp(Vector3D & left, Vector3D & right, float val);
+Vector3D Lerp(Vector3D & left, Vector3D & right, float val);	//Return linear interpolation of two vectors
 
 // assuming right handed Y - up axis
 static const Vector3D VECTOR3D_UP{ 0.0f, 1.0f, 0.0f};

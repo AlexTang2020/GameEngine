@@ -3,14 +3,19 @@
 
 Quad::Quad()
 {
-	//Makes a triangle for some reason (maybe camera)
-	vertices[0] = Vertex3D(-0.5f, -0.5f, 0.f, 0.f, 0.f);
-	vertices[1] = Vertex3D(-0.5f, 0.5f, 0.f, 0.f, 1.f);
-	vertices[2] = Vertex3D(0.5f, 0.5f, 0.f, 1.f, 1.f);
-	vertices[3] = Vertex3D(0.5f, -0.5f, 0.f, 1.f, 0.f);
+	vertices[0] = Vertex3D(0.5f, 0.5f, 0.f, 1.0f, 1.0f);
+	vertices[1] = Vertex3D(0.5f, -0.5f, 0.f, 1.0f, 0.0f);
+	vertices[2] = Vertex3D(-0.5f, -0.5f, 0.f, 0.0f, 0.0f);
+	vertices[3] = Vertex3D(-0.5f, 0.5f, 0.f, 0.0f, 1.0f);
 
-	indices[0] = (unsigned int)0;		indices[1] = (unsigned int)1;		indices[2] = (unsigned int)2;		//Top Left Triangle
-	indices[3] = (unsigned int)0;		indices[4] = (unsigned int)3;		indices[5] = (unsigned int)2;		//Bottom Right Triangle
+
+	indices[0] = (unsigned int)0;		
+	indices[1] = (unsigned int)1;		
+	indices[2] = (unsigned int)3;		
+
+	indices[3] = (unsigned int)1;		
+	indices[4] = (unsigned int)2;		
+	indices[5] = (unsigned int)3;		
 }
 
 Quad::~Quad()
@@ -29,7 +34,7 @@ void Quad::loadQuad(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(Vertex3D), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)0);
 
 	// vertex texture coords
 	glEnableVertexAttribArray(1);

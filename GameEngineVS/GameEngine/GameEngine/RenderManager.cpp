@@ -64,8 +64,41 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
-		// draw our first triangle
+		//	NEED TO FIX TRANSFORMS
+		Matrix4 transform = Matrix4();
+		transform.setIdentity();
+		transform.translate(0.5f, -0.5f, 0.0f);
+		//transform.rotateZ((float)glfwGetTime());
+
+		/*
+		//Basic set up to test when transformation is resolved
+		Matrix4 model = Matrix4();
+		Matrix4 view = Matrix4();
+		Matrix4 projection = Matrix4(); 
+
+		model.setIdentity();
+		view.setIdentity();
+		projection.setIdentity();
+		
+		//Apply when camera in place
+		// pass projection matrix to shader (note that in this case it could change every frame)
+		//glm::mat4 projection = glm::perspective(glm::radians(fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		//ourShader.setMat4("projection", projection);
+
+		// camera/view transformation
+		//glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		//ourShader.setMat4("view", view);
+		
+		//Apply model transformations
+		//Matrix4 model = Matrix4();
+		//model.setIdentity();
+
+
+		*/
 		ourShader.use();
+		unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform.mat4[0][0]);		//Can use value_ptr(transform) as well
+
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		//glDrawArrays(GL_TRIANGLES, 0, 6);
 		glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
@@ -194,12 +227,12 @@ int RenderManager::run()
    
 	//Cube cube{};
 	//cube.loadCube(VAO,VBO,EBO);
-	//Quad quad{};
-	//quad.loadQuad(VAO, VBO, EBO);
+	Quad quad{};
+	quad.loadQuad(VAO, VBO, EBO);
 	//Pyramid pyr{};
 	//pyr.loadPyramid(VAO,VBO,EBO);
-	Sphere sph{};
-	sph.loadSphere(VAO,VBO,EBO);
+	//Sphere sph{};
+	//sph.loadSphere(VAO,VBO,EBO);
 	loadTexture();
 
 	display(window, ourShader, VAO);
@@ -207,9 +240,9 @@ int RenderManager::run()
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
 	//cube.deleteCube(VAO, VBO, EBO, 1, 1, 1);
-	//quad.deleteQuad(VAO, VBO, EBO,1,1,1);
+	quad.deleteQuad(VAO, VBO, EBO,1,1,1);
 	//pyr.deletePyramid(VAO,VBO,EBO,1,1,1);
-	sph.deleteSphere(VAO,VBO,EBO,1,1,1);
+	//sph.deleteSphere(VAO,VBO,EBO,1,1,1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

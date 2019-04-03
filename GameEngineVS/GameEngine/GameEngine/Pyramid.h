@@ -15,8 +15,8 @@ public:
 	Pyramid();
 	~Pyramid();
 
-	void loadPyramid(GLuint VAO, GLuint VBO, GLuint EBO);
-	void deletePyramid(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
+	void loadPyramid(GLuint VAO, GLuint VBO, GLuint EBO);								//Loads and binds pyramid
+	void deletePyramid(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);		//Deletes pyramid from buffers
 private:
 
 };

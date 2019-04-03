@@ -6,8 +6,9 @@ class Matrix4
 {
 public:
 	
-	float mat4[4][4];
+	float mat4[4][4];	// 2D Array[row][column]
 	Matrix4();
+	~Matrix4();
 
 	void setIdentity();								//Set diagonals equal to 1
 	void translate(float x, float y, float z);		//Translate/Move matrix 
@@ -26,4 +27,5 @@ private:
 
 };
 
-void printMatrix4(Matrix4 mat4);
+float* value_ptr(Matrix4 mat);		//Returns address of an array that holds all mat4 values
+void printMatrix4(Matrix4 mat4);	//Prints out values stored in mat4

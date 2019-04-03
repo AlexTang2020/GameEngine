@@ -15,8 +15,8 @@ public:
 	unsigned int indices[numIndices];
 	Vertex3D vertices[numVertices];
 
-	void loadQuad(GLuint VAO, GLuint VBO, GLuint EBO);
-	void deleteQuad(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
+	void loadQuad(GLuint VAO, GLuint VBO, GLuint EBO);								//Loads and binds quad
+	void deleteQuad(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);	//Deletes quad from buffers
 
 private:
 

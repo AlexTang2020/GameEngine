@@ -5,10 +5,10 @@
 class Point3D
 {
 public:
-	float x = 0;
-	float y = 0;
-	float z = 0;
-	int w = 1;
+	float x = 0;	// x position
+	float y = 0;	// y position
+	float z = 0;	// z position
+	int w = 1;		
 
 	Point3D();
 

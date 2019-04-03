@@ -16,9 +16,8 @@ public:
 	int indices[numIndices];
 	Vertex3D vertices[numVertices];
 
-	//Calculate Vertices and Indices for Sphere
-	void calculateVertandInd();
-	void loadSphere(GLuint VAO, GLuint VBO, GLuint EBO);
-	void deleteSphere(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
+	void calculateVertandInd();														//Calculate Vertices and Indices for Sphere
+	void loadSphere(GLuint VAO, GLuint VBO, GLuint EBO);							//Loads and binds sphere
+	void deleteSphere(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);	//Deletes sphere from buffers
 
 };
