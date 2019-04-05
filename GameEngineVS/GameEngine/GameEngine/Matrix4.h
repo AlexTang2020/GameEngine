@@ -12,7 +12,8 @@ public:
 
 	void setIdentity();								//Set diagonals equal to 1
 	void translate(float x, float y, float z);		//Translate/Move matrix 
-	void scale(float x, float y, float z);			//Multiply matrix to scale 
+	void scale(float x, float y, float z);			//Multiply matrix to scale non-uniformly
+	void scale(float val);			//Multiply matrix to scale uniformly
 
 	void inverse();					//Inverse the matrix
 	void transpose();				//Transpose the matrix
