@@ -68,8 +68,8 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 
 		Matrix4 transform = Matrix4();
 		transform.setIdentity();
-		transform.rotate((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
 		transform.translate(0.5f, -0.5f, 0.0f);
+		transform.rotate((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
 
 		ourShader.use();
 		/*

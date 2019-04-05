@@ -25,34 +25,43 @@ void Matrix4::setIdentity()
 	}
 }
 
-void Matrix4::translate(float x, float y, float z)
+Matrix4 translate(float x, float y, float z)
 {
 	Matrix4 mTrans = Matrix4();
 	mTrans.setIdentity();
 	mTrans.mat4[3][0] = x;
 	mTrans.mat4[3][1] = y;
 	mTrans.mat4[3][2] = z;
-	concatenate(mTrans);
+	return mTrans;
 }
 
-void Matrix4::scale(float x, float y, float z)
+Matrix4 translate(Vector3D vec) {
+	Martrix4 mTrans = Matrix4();
+	mTrans.setIdentity();
+	mTrans.mat4[3][0] = vec.x;
+	mTrans.mat4[3][1] = vec.y;
+	mTrans.mat4[3][2] = vec.z;
+	return mTrans;
+}
+
+Matrix4 scale(float x, float y, float z)
 {
 	Matrix4 mScale = Matrix4();
 	mScale.setIdentity();
 	mScale.mat4[0][0] *= x;
 	mScale.mat4[1][1] *= y;
 	mScale.mat4[2][2] *= z;
-	concatenate(mScale);
+	return mScale;
 }
 
-void Matrix4::scale(float val)
+Matrix4 scale(float val)
 {
 	Matrix4 mScale = Matrix4();
 	mScale.setIdentity();
 	mScale.mat4[0][0] *= val;
 	mScale.mat4[1][1] *= val;
 	mScale.mat4[2][2] *= val;
-	concatenate(mScale);
+	return mScale;
 }
 
 void Matrix4::inverse()
@@ -152,7 +161,7 @@ void Matrix4::transpose()
 	
 }
 
-void Matrix4::rotate(float angle, float x, float y, float z) {
+Matrix4 rotate(float angle, float x, float y, float z) {
 	float c = cosf(angle);
 	float s = sinf(angle);
 	float t = 1.0f - c;
@@ -183,10 +192,10 @@ void Matrix4::rotate(float angle, float x, float y, float z) {
 	rMat.mat4[3][2] = 0.0f;
 	rMat.mat4[3][3] = 1.0f;
 
-	concatenate(rMat);
+	return rMat;
 }
 
-void Matrix4::rotateX(float angle)
+Matrix4 rotateX(float angle)
 {
 	Matrix4 mRotate = Matrix4();
 	mRotate.setIdentity();
@@ -194,10 +203,10 @@ void Matrix4::rotateX(float angle)
 	mRotate.mat4[1][2] = sinf(angle);
 	mRotate.mat4[2][1] =-sinf(angle);
 	mRotate.mat4[2][2] = cosf(angle);
-	concatenate(mRotate);
+	return mRotate;
 }
 
-void Matrix4::rotateY(float angle)
+Matrix4 rotateY(float angle)
 {
 	Matrix4 mRotate = Matrix4();
 	mRotate.setIdentity();
@@ -205,11 +214,11 @@ void Matrix4::rotateY(float angle)
 	mRotate.mat4[0][2] =-sinf(angle);
 	mRotate.mat4[2][0] = sinf(angle);
 	mRotate.mat4[2][2] = cosf(angle);
-	concatenate(mRotate);
+	return mRotate;
 
 }
 
-void Matrix4::rotateZ(float angle)
+Matrix4 rotateZ(float angle)
 {
 	Matrix4 mRotate = Matrix4();
 	mRotate.setIdentity();
@@ -217,7 +226,11 @@ void Matrix4::rotateZ(float angle)
 	mRotate.mat4[0][1] =  sinf(angle);
 	mRotate.mat4[1][0] = -sinf(angle);
 	mRotate.mat4[1][1] = cosf(angle);
-	concatenate(mRotate);
+	return mRotate;
+}
+
+Matrix4 rotateAtCenter(float angle, Vector3D center, Vector3D rAxis) {
+	return translate(center*-1).concatenate(rotate(rAxis, angle).concatenate(translate(center)));
 }
 
 void Matrix4::concatenate(Matrix4 & right)
