@@ -97,7 +97,7 @@ void Sphere::loadSphere(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(Vertex3D), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)0);
 
 	// vertex texture coords
 	glEnableVertexAttribArray(1);

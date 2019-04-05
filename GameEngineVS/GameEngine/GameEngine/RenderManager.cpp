@@ -1,4 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
+#define _USE_MATH_DEFINES
+
 
 #include "RenderManager.h"
 using namespace std;
@@ -64,12 +66,12 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
-		//	NEED TO FIX TRANSFORMS
 		Matrix4 transform = Matrix4();
 		transform.setIdentity();
+		transform.rotate((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
 		transform.translate(0.5f, -0.5f, 0.0f);
-		//transform.rotateZ((float)glfwGetTime());
 
+		ourShader.use();
 		/*
 		//Basic set up to test when transformation is resolved
 		Matrix4 model = Matrix4();
@@ -80,6 +82,19 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		view.setIdentity();
 		projection.setIdentity();
 		
+		model.rotate((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
+		view.translate(0.0f,0.0f,-2.0f);
+		projection = projection.perspective((45.0f*M_PI)/180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+
+		unsigned int modelLoc = glGetUniformLocation(ourShader.ID, "model");
+		unsigned int viewLoc = glGetUniformLocation(ourShader.ID, "view");
+
+		// pass them to the shaders (3 different ways)
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view.mat4[0][0]);
+		// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
+		ourShader.setMat4("projection", projection.mat4);
+
 		//Apply when camera in place
 		// pass projection matrix to shader (note that in this case it could change every frame)
 		//glm::mat4 projection = glm::perspective(glm::radians(fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -92,17 +107,15 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		//Apply model transformations
 		//Matrix4 model = Matrix4();
 		//model.setIdentity();
-
-
 		*/
-		ourShader.use();
+
+		
+		
 		unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform.mat4[0][0]);		//Can use value_ptr(transform) as well
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		//glDrawArrays(GL_TRIANGLES, 0, 6);
 		glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
-		// glBindVertexArray(0); // no need to unbind it every time 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -227,12 +240,12 @@ int RenderManager::run()
    
 	//Cube cube{};
 	//cube.loadCube(VAO,VBO,EBO);
-	Quad quad{};
-	quad.loadQuad(VAO, VBO, EBO);
+	//Quad quad{};
+	//quad.loadQuad(VAO, VBO, EBO);
 	//Pyramid pyr{};
 	//pyr.loadPyramid(VAO,VBO,EBO);
-	//Sphere sph{};
-	//sph.loadSphere(VAO,VBO,EBO);
+	Sphere sph{};
+	sph.loadSphere(VAO,VBO,EBO);
 	loadTexture();
 
 	display(window, ourShader, VAO);
@@ -240,9 +253,9 @@ int RenderManager::run()
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
 	//cube.deleteCube(VAO, VBO, EBO, 1, 1, 1);
-	quad.deleteQuad(VAO, VBO, EBO,1,1,1);
+	//quad.deleteQuad(VAO, VBO, EBO,1,1,1);
 	//pyr.deletePyramid(VAO,VBO,EBO,1,1,1);
-	//sph.deleteSphere(VAO,VBO,EBO,1,1,1);
+	sph.deleteSphere(VAO,VBO,EBO,1,1,1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

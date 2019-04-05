@@ -152,14 +152,48 @@ void Matrix4::transpose()
 	
 }
 
+void Matrix4::rotate(float angle, float x, float y, float z) {
+	float c = cosf(angle);
+	float s = sinf(angle);
+	float t = 1.0f - c;
+	Vector3D rAxis = Vector3D(x,y,z);
+	Vector3D rNormal = rAxis.Normal();
+	float xN = rNormal.x;
+	float yN = rNormal.y;
+	float zN = rNormal.z;
+
+	Matrix4 rMat = Matrix4();
+	rMat.mat4[0][0] = 1 + t * (xN*xN - 1);
+	rMat.mat4[0][1] = zN * s + t * xN*yN;
+	rMat.mat4[0][2] = -yN * s + t * xN*zN;
+	rMat.mat4[0][3] = 0.0f;
+
+	rMat.mat4[1][0] = -zN * s + t * xN*yN;
+	rMat.mat4[1][1] = 1 + t * (yN*yN - 1);
+	rMat.mat4[1][2] = xN * s + t * yN*zN;
+	rMat.mat4[1][3] = 0.0f;
+
+	rMat.mat4[2][0] = yN * s + t * xN*zN;
+	rMat.mat4[2][1] = -xN * s + t * yN*zN;
+	rMat.mat4[2][2] = 1 + t * (zN*zN - 1);
+	rMat.mat4[2][3] = 0.0f;
+
+	rMat.mat4[3][0] = 0.0f;
+	rMat.mat4[3][1] = 0.0f;
+	rMat.mat4[3][2] = 0.0f;
+	rMat.mat4[3][3] = 1.0f;
+
+	concatenate(rMat);
+}
+
 void Matrix4::rotateX(float angle)
 {
 	Matrix4 mRotate = Matrix4();
 	mRotate.setIdentity();
-	mRotate.mat4[1][1] = (float) cos(angle*M_PI/180.f);
-	mRotate.mat4[1][2] = (float) sin(angle*M_PI/180.f);
-	mRotate.mat4[2][1] = (float) -sin(angle*M_PI / 180.f);
-	mRotate.mat4[2][2] = (float) cos(angle*M_PI / 180.f);
+	mRotate.mat4[1][1] = cosf(angle);
+	mRotate.mat4[1][2] = sinf(angle);
+	mRotate.mat4[2][1] =-sinf(angle);
+	mRotate.mat4[2][2] = cosf(angle);
 	concatenate(mRotate);
 }
 
@@ -167,10 +201,10 @@ void Matrix4::rotateY(float angle)
 {
 	Matrix4 mRotate = Matrix4();
 	mRotate.setIdentity();
-	mRotate.mat4[0][0] *= (float) cos(angle*M_PI / 180.f);
-	mRotate.mat4[0][2] *= (float) -sin(angle*M_PI / 180.f);
-	mRotate.mat4[2][0] *= (float) sin(angle*M_PI / 180.f);
-	mRotate.mat4[2][2] *= (float) cos(angle*M_PI / 180.f);
+	mRotate.mat4[0][0] = cosf(angle);
+	mRotate.mat4[0][2] =-sinf(angle);
+	mRotate.mat4[2][0] = sinf(angle);
+	mRotate.mat4[2][2] = cosf(angle);
 	concatenate(mRotate);
 
 }
@@ -179,10 +213,10 @@ void Matrix4::rotateZ(float angle)
 {
 	Matrix4 mRotate = Matrix4();
 	mRotate.setIdentity();
-	mRotate.mat4[0][0] *= (float) cos(angle*M_PI / 180.f);
-	mRotate.mat4[0][1] *= (float) sin(angle*M_PI / 180.f);
-	mRotate.mat4[1][0] *= (float)-sin(angle*M_PI / 180.f);
-	mRotate.mat4[1][1] *= (float) cos(angle*M_PI / 180.f);
+	mRotate.mat4[0][0] =  cosf(angle);
+	mRotate.mat4[0][1] =  sinf(angle);
+	mRotate.mat4[1][0] = -sinf(angle);
+	mRotate.mat4[1][1] = cosf(angle);
 	concatenate(mRotate);
 }
 
@@ -216,6 +250,31 @@ void Matrix4::concatenate(Matrix4 & right)
 			mat4[row][col] = copy.mat4[row][col];
 		}
 	}
+}
+
+Matrix4 Matrix4::perspective(float width, float height, float zNear, float zFar) {
+	Matrix4 pMat = Matrix4();
+	pMat.setIdentity();
+	pMat.mat4[0][0] = 2.0f * zNear / width;
+	pMat.mat4[1][0] = 0.0f;
+	pMat.mat4[2][0] = 0.0f;
+	pMat.mat4[3][0] = 0.0f;
+
+	pMat.mat4[0][1] = 0.0f;
+	pMat.mat4[1][1] = 2.0f * zNear / height;
+	pMat.mat4[2][1] = 0.0f;
+	pMat.mat4[3][1] = 0.0f;
+
+	pMat.mat4[0][2] = 0.0f;
+	pMat.mat4[1][2] = 0.0f;
+	pMat.mat4[2][2] = zFar / (zNear - zFar);
+	pMat.mat4[3][2] = zFar * zNear / (zNear - zFar);
+
+	pMat.mat4[0][3] = 0.0f;
+	pMat.mat4[1][3] = 0.0f;
+	pMat.mat4[2][3] = -1.0f;
+	pMat.mat4[3][3] = 0.0f;
+	return pMat;
 }
 
 float* value_ptr(Matrix4 mat) {

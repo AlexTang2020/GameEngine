@@ -18,9 +18,12 @@ public:
 	void inverse();					//Inverse the matrix
 	void transpose();				//Transpose the matrix
 
+	void rotate(float angle, float x, float y, float z); //Rotate about specified axis
 	void rotateX(float angle);		//Rotate about the x axix
 	void rotateY(float angle);		//Rotate about the y axis
 	void rotateZ(float angle);		//Rotate about the z axis
+
+	Matrix4 perspective(float width, float height, float zNear, float zFar);	//Perspective View Matrix
 
 	void concatenate(Matrix4& right);	//Multiply matrix with another matrix on the RHS
 
