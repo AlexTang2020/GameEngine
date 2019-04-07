@@ -7,7 +7,7 @@
 class Sphere
 {
 public:
-	Sphere();
+	Sphere(GLuint VAO);
 	~Sphere();
 
 	static const int prec = 48;
@@ -15,9 +15,10 @@ public:
 	static const int numIndices = prec * prec * 6;
 	int indices[numIndices];
 	Vertex3D vertices[numVertices];
+	unsigned int VBO, EBO;
 
 	void calculateVertandInd();														//Calculate Vertices and Indices for Sphere
 	void loadSphere(GLuint VAO, GLuint VBO, GLuint EBO);							//Loads and binds sphere
-	void deleteSphere(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);	//Deletes sphere from buffers
+	void deleteSphere(GLuint VAO, int va);	//Deletes sphere from buffers
 
 };

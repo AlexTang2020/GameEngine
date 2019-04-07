@@ -22,9 +22,8 @@ void Cube::loadCube(GLuint VAO, GLuint VBO, GLuint EBO)
 	*/
 
 	//Initialized buffers
-	//glGenVertexArrays(1, &VAO);
-	//glGenBuffers(1, &VBO);
-	//glGenBuffers(1, &EBO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 
 
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
@@ -54,14 +53,14 @@ void Cube::loadCube(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBindVertexArray(0);
 }
 
-void Cube::deleteCube(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb)
+void Cube::deleteCube(GLuint VAO, int va)
 {
 		glDeleteVertexArrays(va, &VAO);
-		glDeleteBuffers(vb, &VBO);
-		glDeleteBuffers(eb, &EBO);
+		glDeleteBuffers(1, &VBO);
+		glDeleteBuffers(1, &EBO);
 }
 
-Cube::Cube()
+Cube::Cube(GLuint VAO)
 {
 	//Front
 	vertices[0] = Vertex3D(-0.5f, -0.5f, 0.5f, 0.f, 0.f);
@@ -120,6 +119,7 @@ Cube::Cube()
 	for (int i = 0; i < numIndices; i++) {
 		indices[i] = (unsigned int) i;
 	}
+	loadCube(VAO,VBO,EBO);
 }
 
 Cube::~Cube()

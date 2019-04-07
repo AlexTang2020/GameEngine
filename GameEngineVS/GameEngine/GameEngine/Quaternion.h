@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector3D.h"
+#include "Matrix4.h"
 #include <math.h>
 
 class Quaternion

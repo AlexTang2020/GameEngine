@@ -1,7 +1,6 @@
 #define _USE_MATH_DEFINES
 
 #include "Matrix4.h"
-#include "Header.h"
 #include <cmath>
 
 Matrix4::Matrix4()
@@ -35,14 +34,11 @@ Matrix4 translate(float x, float y, float z)
 	return mTrans;
 }
 
-Matrix4 translate(Vector3D vec) {
-	Martrix4 mTrans = Matrix4();
-	mTrans.setIdentity();
-	mTrans.mat4[3][0] = vec.x;
-	mTrans.mat4[3][1] = vec.y;
-	mTrans.mat4[3][2] = vec.z;
-	return mTrans;
+/*
+Matrix4 translateVec(Vector3D vec) {
+	return translate(vec.x, vec.y, vec.z);
 }
+*/
 
 Matrix4 scale(float x, float y, float z)
 {
@@ -54,15 +50,12 @@ Matrix4 scale(float x, float y, float z)
 	return mScale;
 }
 
-Matrix4 scale(float val)
+/*
+Matrix4 scaleUniform(float val)
 {
-	Matrix4 mScale = Matrix4();
-	mScale.setIdentity();
-	mScale.mat4[0][0] *= val;
-	mScale.mat4[1][1] *= val;
-	mScale.mat4[2][2] *= val;
-	return mScale;
+	return scale(val, val, val);
 }
+*/
 
 void Matrix4::inverse()
 {	
@@ -195,6 +188,12 @@ Matrix4 rotate(float angle, float x, float y, float z) {
 	return rMat;
 }
 
+/*
+Matrix4 rotateVec(float angle, Vector3D rAxis) {
+	return rotate(angle, rAxis.x, rAxis.y, rAxis.z);
+}
+*/
+
 Matrix4 rotateX(float angle)
 {
 	Matrix4 mRotate = Matrix4();
@@ -230,10 +229,34 @@ Matrix4 rotateZ(float angle)
 }
 
 Matrix4 rotateAtCenter(float angle, Vector3D center, Vector3D rAxis) {
-	return translate(center*-1).concatenate(rotate(rAxis, angle).concatenate(translate(center)));
+	Vector3D inVec = center * -1;
+	Matrix4 invTrans = translate(inVec.x, inVec.y, inVec.z);
+	Matrix4 rotation = rotate(angle, rAxis.x, rAxis.y, rAxis.z);
+	Matrix4 trans = translate(center.x, center.y, center.z);
+	return rotation.concatenate(trans);
 }
 
-void Matrix4::concatenate(Matrix4 & right)
+Matrix4 rotateAtMat(float angle, Matrix4 trans, Vector3D rAxis)
+{
+	Matrix4 rotation = rotate(angle, rAxis.x, rAxis.y, rAxis.z);
+	return trans.concatenate(rotation);
+}
+
+Vector3D concat(Vector3D left, Matrix4 &right)
+{
+	float vx = left.x;
+	float vy = left.y;
+	float vz = left.z;
+	float vw = left.w;
+
+	float x = vx * right.mat4[0][0] + vy * right.mat4[1][0] + vz * right.mat4[2][0] + vw * right.mat4[3][0];
+	float y = vx * right.mat4[0][1] + vy * right.mat4[1][1] + vz * right.mat4[2][1] + vw * right.mat4[3][1];
+	float z = vx * right.mat4[0][2] + vy * right.mat4[1][2] + vz * right.mat4[2][2] + vw * right.mat4[3][2];
+	float w = vx * right.mat4[0][3] + vy * right.mat4[1][3] + vz * right.mat4[2][3] + vw * right.mat4[3][3];
+	return Vector3D(x, y, z, w);
+}
+
+Matrix4 Matrix4::concatenate(Matrix4 & right)
 {
 	Matrix4 copy;
 
@@ -258,14 +281,23 @@ void Matrix4::concatenate(Matrix4 & right)
 		copy.mat4[3][2] += (mat4[3][i] * right.mat4[i][2]);
 		copy.mat4[3][3] += (mat4[3][i] * right.mat4[i][3]);
 	}
+	/*
 	for (int row = 0; row < 4; row++) {
 		for (int col = 0; col < 4; col++) {
 			mat4[row][col] = copy.mat4[row][col];
 		}
 	}
+	*/
+	return copy;
 }
 
-Matrix4 Matrix4::perspective(float width, float height, float zNear, float zFar) {
+Matrix4 Matrix4::rotateConcat(float angle, float x, float y, float z)
+{
+	Matrix4 rot = rotate(angle, x, y, z);
+	return concatenate(rot);
+}
+
+Matrix4 perspective(float width, float height, float zNear, float zFar){	
 	Matrix4 pMat = Matrix4();
 	pMat.setIdentity();
 	pMat.mat4[0][0] = 2.0f * zNear / width;

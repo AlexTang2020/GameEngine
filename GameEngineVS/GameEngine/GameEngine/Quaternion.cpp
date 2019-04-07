@@ -1,7 +1,6 @@
 #define _USE_MATH_DEFINES
 
 #include "Quaternion.h"
-#include "Vector3D.h"
 #include <cmath>
 
 Quaternion::Quaternion() : qx(0), qy(0), qz(0), qw(0)

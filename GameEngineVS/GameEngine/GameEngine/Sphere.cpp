@@ -3,11 +3,12 @@
 #include "Sphere.h"
 
 
-Sphere::Sphere() {
+Sphere::Sphere(GLuint VAO) {
 	for (int i = 0; i < numVertices; i++) {
 		vertices[i] = Vertex3D();
 	}
 	calculateVertandInd();
+	loadSphere(VAO, VBO, EBO);
 }
 
 Sphere::~Sphere()
@@ -87,6 +88,10 @@ void Sphere::loadSphere(GLuint VAO, GLuint VBO, GLuint EBO)
 	gl.glBufferData(GL_ARRAY_BUFFER, norBuf.limit() * 4, norBuf, GL_STATIC_DRAW);
 	*/
 
+	//Initialized buffers
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 	glBindVertexArray(VAO);
 
@@ -114,9 +119,9 @@ void Sphere::loadSphere(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBindVertexArray(0);
 }
 
-void Sphere::deleteSphere(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb)
+void Sphere::deleteSphere(GLuint VAO,  int va)
 {
 	glDeleteVertexArrays(va, &VAO);
-	glDeleteBuffers(vb, &VBO);
-	glDeleteBuffers(eb, &EBO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 }

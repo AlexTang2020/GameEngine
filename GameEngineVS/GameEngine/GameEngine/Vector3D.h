@@ -1,6 +1,5 @@
 #pragma once
 #include <math.h>
-#include "Matrix4.h"
 
 class Vector3D
 {
@@ -31,8 +30,6 @@ public:
 	Vector3D Cross(Vector3D const& right);		//Return cross product of two vectors
 
 	Vector3D Lerp(Vector3D& left, float val);	//Return linear interpolation of two vectors
-	void concatenate(Matrix4& right);			//Multiply vector with a matrix
-
 private:
 
 };

@@ -65,14 +65,17 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
-
+		/*
 		Matrix4 transform = Matrix4();
 		transform.setIdentity();
-		transform.translate(0.5f, -0.5f, 0.0f);
-		transform.rotate((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
-
+		Vector3D trans = Vector3D(0.5f, -.5f, 0.0f);
+		Vector3D rAxis = Vector3D(0.0f, 0.0f, 1.0f);
+		//transform = translate(trans.x, trans.y, trans.z);
+		//transform = rotateAtMat((float)glfwGetTime(), transform, rAxis);
+		transform = rotateAtCenter((float) glfwGetTime(), trans, rAxis);
+		*/
 		ourShader.use();
-		/*
+		
 		//Basic set up to test when transformation is resolved
 		Matrix4 model = Matrix4();
 		Matrix4 view = Matrix4();
@@ -82,9 +85,9 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		view.setIdentity();
 		projection.setIdentity();
 		
-		model.rotate((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
-		view.translate(0.0f,0.0f,-2.0f);
-		projection = projection.perspective((45.0f*M_PI)/180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		model = model.rotateConcat((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
+		view = translate(0.0f,0.0f,-2.0f);
+		projection = perspective((45.0f*M_PI)/180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
 		unsigned int modelLoc = glGetUniformLocation(ourShader.ID, "model");
 		unsigned int viewLoc = glGetUniformLocation(ourShader.ID, "view");
@@ -107,12 +110,12 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		//Apply model transformations
 		//Matrix4 model = Matrix4();
 		//model.setIdentity();
-		*/
+		
 
 		
 		
 		unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform.mat4[0][0]);		//Can use value_ptr(transform) as well
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &model.mat4[0][0]);		//Can use value_ptr(transform) as well
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
@@ -131,7 +134,7 @@ void RenderManager::processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
-/*
+	/*
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		camera.ProcessKeyboard(FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -140,7 +143,7 @@ void RenderManager::processInput(GLFWwindow *window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
-*/
+		*/
 }
 
 void RenderManager::loadTexture()
@@ -185,9 +188,9 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void RenderManager::mouse_callback(GLFWwindow * window, double xpos, double ypos)
+void RenderManager::mouse_callback(GLFWwindow * window, float xpos, float ypos)
 {
-	/*
+	
 	if (firstMouse)
 	{
 		lastX = xpos;
@@ -201,11 +204,11 @@ void RenderManager::mouse_callback(GLFWwindow * window, double xpos, double ypos
 	lastX = xpos;
 	lastY = ypos;
 
-	camera.ProcessMouseMovement(xoffset, yoffset);
-	*/
+	//camera.ProcessMouseMovement(xoffset, yoffset);
+	
 }
 
-void RenderManager::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
+void RenderManager::scroll_callback(GLFWwindow * window, float xoffset, float yoffset)
 {
 	//camera.ProcessMouseScroll(yoffset);
 }
@@ -232,30 +235,27 @@ int RenderManager::run()
 	// ------------------------------------
 	Shader ourShader("vert.shader", "frag.shader"); // you can name your shader files however you like
 
-	
-    unsigned int VBO, VAO, EBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-   
-	//Cube cube{};
-	//cube.loadCube(VAO,VBO,EBO);
-	//Quad quad{};
-	//quad.loadQuad(VAO, VBO, EBO);
-	//Pyramid pyr{};
-	//pyr.loadPyramid(VAO,VBO,EBO);
-	Sphere sph{};
-	sph.loadSphere(VAO,VBO,EBO);
-	loadTexture();
+	//Cant place all class primitives in a single array
+	//Must make an array for each primitive (Instancing)
+	//Can be fixed if all objects were under a messh class instead using ASSIMP
 
+	unsigned int VAO;			//LearnOpengl.com Instancing Tutorial for reorganizing primitives
+    glGenVertexArrays(1, &VAO);	//Place VAO and VAO gen inside primitive class, just make array of class object and set up VAO binding
+   
+	//Cube cube(VAO);
+	//Quad quad(VAO);
+	Pyramid pyr(VAO);
+	//Sphere sph(VAO);
+	loadTexture();
+	
 	display(window, ourShader, VAO);
 	
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
-	//cube.deleteCube(VAO, VBO, EBO, 1, 1, 1);
-	//quad.deleteQuad(VAO, VBO, EBO,1,1,1);
-	//pyr.deletePyramid(VAO,VBO,EBO,1,1,1);
-	sph.deleteSphere(VAO,VBO,EBO,1,1,1);
+	//cube.deleteCube(VAO, 1);
+	//quad.deleteQuad(VAO, 1);
+	pyr.deletePyramid(VAO,1);
+	//sph.deleteSphere(VAO,1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

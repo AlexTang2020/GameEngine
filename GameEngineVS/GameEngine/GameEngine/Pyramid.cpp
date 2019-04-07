@@ -1,6 +1,6 @@
 #include "Pyramid.h"
 
-Pyramid::Pyramid()
+Pyramid::Pyramid(GLuint VAO)
 {
 	vertices[0] = Vertex3D(0.f, 0.5f, 0.f, .5f, 1.f);
 	vertices[1] = Vertex3D(-1.f, -0.5f, 1.f, 0.f, 0.f);
@@ -20,6 +20,7 @@ Pyramid::Pyramid()
 	indices[9] = 0;		indices[10] = 7;	indices[11] = 8;	//Left Triangle
 	indices[12] = 9;	indices[13] = 1;	indices[14] = 2;	//Bottom Front Left Triangle
 	indices[15] = 9;	indices[16] = 10;	indices[17] = 2;	//Bottom Back Right Triangle
+	loadPyramid(VAO, VBO, EBO);
 }
 
 Pyramid::~Pyramid()
@@ -28,6 +29,10 @@ Pyramid::~Pyramid()
 
 void Pyramid::loadPyramid(GLuint VAO, GLuint VBO, GLuint EBO)
 {
+
+	//Initialized buffers
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 	
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 	glBindVertexArray(VAO);
@@ -57,9 +62,9 @@ void Pyramid::loadPyramid(GLuint VAO, GLuint VBO, GLuint EBO)
 	
 }
 
-void Pyramid::deletePyramid(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb)
+void Pyramid::deletePyramid(GLuint VAO, int va)
 {
 	glDeleteVertexArrays(va, &VAO);
-	glDeleteBuffers(vb, &VBO);
-	glDeleteBuffers(eb, &EBO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 }

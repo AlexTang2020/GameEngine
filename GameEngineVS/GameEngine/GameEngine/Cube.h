@@ -10,7 +10,7 @@ public:
 	static const int numIndices = 36;
 	Vertex3D vertices[numVertices];
 	unsigned int indices[numIndices];
-	//int bufferID;
+	unsigned int VBO, EBO;
 
 	/*
 	float vertices[144] = { -0.5f, -0.5f, -0.5f,
@@ -63,7 +63,7 @@ public:
 		28, 29, 30, 31, 32, 33, 34, 35 };
 	*/
 	void loadCube(GLuint VAO, GLuint VBO, GLuint EBO);									//Loads and binds cube
-	void deleteCube(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);		//Deletes cube from buffers
-	Cube();
+	void deleteCube(GLuint VAO, int va);		//Deletes cube from buffers
+	Cube(GLuint VAO);
 	~Cube();
 };

@@ -1,7 +1,7 @@
 #include "Quad.h"
 
 
-Quad::Quad()
+Quad::Quad(GLuint VAO)
 {
 	vertices[0] = Vertex3D(0.5f, 0.5f, 0.f, 1.0f, 1.0f);
 	vertices[1] = Vertex3D(0.5f, -0.5f, 0.f, 1.0f, 0.0f);
@@ -16,6 +16,8 @@ Quad::Quad()
 	indices[3] = (unsigned int)1;		
 	indices[4] = (unsigned int)2;		
 	indices[5] = (unsigned int)3;		
+
+	loadQuad(VAO, VBO, EBO);
 }
 
 Quad::~Quad()
@@ -24,6 +26,10 @@ Quad::~Quad()
 
 void Quad::loadQuad(GLuint VAO, GLuint VBO, GLuint EBO)
 {
+	//Initialized buffers
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 	glBindVertexArray(VAO);
 
@@ -51,9 +57,9 @@ void Quad::loadQuad(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBindVertexArray(0);
 }
 
-void Quad::deleteQuad(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb)
+void Quad::deleteQuad(GLuint VAO, int va)
 {
 	glDeleteVertexArrays(va, &VAO);
-	glDeleteBuffers(vb, &VBO);
-	glDeleteBuffers(eb, &EBO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 }

@@ -1,25 +1,10 @@
-﻿  glad.c
-  AudioManager.cpp
-  Camera.cpp
-  Cube.cpp
+﻿  Cube.cpp
   GameManager.cpp
-  Matrix4.cpp
   MemAllocater.cpp
-  Point3D.cpp
-c:\users\alex7\onedrive\documents\github\gameengine\gameenginevs\gameengine\gameengine\point3d.cpp(38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Pyramid.cpp
   Quad.cpp
-  Quaternion.cpp
-c:\users\alex7\onedrive\documents\github\gameengine\gameenginevs\gameengine\gameengine\quaternion.cpp(90): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\alex7\onedrive\documents\github\gameengine\gameenginevs\gameengine\gameengine\quaternion.cpp(91): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\alex7\onedrive\documents\github\gameengine\gameenginevs\gameengine\gameengine\quaternion.cpp(121): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   RenderManager.cpp
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(90): warning C4305: 'argument': truncation from 'double' to 'float'
   Sphere.cpp
-  Vector3D.cpp
-c:\users\alex7\onedrive\documents\github\gameengine\gameenginevs\gameengine\gameengine\vector3d.cpp(14): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\alex7\onedrive\documents\github\gameengine\gameenginevs\gameengine\gameengine\vector3d.cpp(82): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\alex7\onedrive\documents\github\gameengine\gameenginevs\gameengine\gameengine\vector3d.cpp(87): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Vertex3D.cpp
   Generating Code...
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  GameEngine.vcxproj -> C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe
+  GameEngine.vcxproj -> C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe
