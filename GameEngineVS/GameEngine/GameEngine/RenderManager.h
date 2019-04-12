@@ -8,7 +8,7 @@ public:
 	const unsigned int SCR_HEIGHT = 600;
 	
 	// camera
-	//Camera camera = Camera( Vector3D(0.0f, 0.0f, 3.0f));
+	Camera camera = Camera( Vector3D(0.0f, 0.0f, 3.0f), Vector3D(0.0f,1.0f,0.0f), YAW, PITCH);
 	float lastX = SCR_WIDTH / 2.0f;
 	float lastY = SCR_HEIGHT / 2.0f;
 	bool firstMouse = true;
@@ -45,3 +45,4 @@ public:
 
 int GLFWwindowCheck(GLFWwindow* window);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+

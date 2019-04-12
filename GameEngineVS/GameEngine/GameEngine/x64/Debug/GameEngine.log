@@ -1,10 +1,18 @@
-﻿  Cube.cpp
+﻿  Camera.cpp
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C3646: 'camera': unknown override specifier
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C2059: syntax error: '='
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C2238: unexpected token(s) preceding ';'
+  Cube.cpp
   GameManager.cpp
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C3646: 'camera': unknown override specifier
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C2059: syntax error: '='
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C2238: unexpected token(s) preceding ';'
   MemAllocater.cpp
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C3646: 'camera': unknown override specifier
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C2059: syntax error: '='
+c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.h(11): error C2238: unexpected token(s) preceding ';'
   Pyramid.cpp
   Quad.cpp
   RenderManager.cpp
-c:\users\admin\documents\github\gameengine\gameenginevs\gameengine\gameengine\rendermanager.cpp(90): warning C4305: 'argument': truncation from 'double' to 'float'
   Sphere.cpp
   Generating Code...
-  GameEngine.vcxproj -> C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe

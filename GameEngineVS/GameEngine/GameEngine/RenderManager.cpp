@@ -3,7 +3,7 @@
 
 
 #include "RenderManager.h"
-using namespace std;
+//using namespace std;
 
 void RenderManager::GLFWSetUp() {
 	// glfw: initialize and configure
@@ -85,9 +85,9 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		view.setIdentity();
 		projection.setIdentity();
 		
-		model = model.rotateConcat((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
-		view = translate(0.0f,0.0f,-2.0f);
-		projection = perspective((45.0f*M_PI)/180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		//model = model.rotateConcat((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
+		view = camera.lookAt(camera.Position, camera.Position+camera.Front, camera.Up);
+		projection = perspective((float)(45.0f*M_PI)/180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
 		unsigned int modelLoc = glGetUniformLocation(ourShader.ID, "model");
 		unsigned int viewLoc = glGetUniformLocation(ourShader.ID, "view");
@@ -96,26 +96,10 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view.mat4[0][0]);
 		// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
-		ourShader.setMat4("projection", projection.mat4);
-
-		//Apply when camera in place
-		// pass projection matrix to shader (note that in this case it could change every frame)
-		//glm::mat4 projection = glm::perspective(glm::radians(fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		//ourShader.setMat4("projection", projection);
-
-		// camera/view transformation
-		//glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		//ourShader.setMat4("view", view);
+		ourShader.setMat4("projection", projection.mat4);		
 		
-		//Apply model transformations
-		//Matrix4 model = Matrix4();
-		//model.setIdentity();
-		
-
-		
-		
-		unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &model.mat4[0][0]);		//Can use value_ptr(transform) as well
+		//unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &model.mat4[0][0]);		//Can use value_ptr(transform) as well
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
@@ -134,16 +118,16 @@ void RenderManager::processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
-	/*
+	
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(FORWARD, deltaTime);
+		camera.ProcessKeyboard(0, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
+		camera.ProcessKeyboard(1, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(LEFT, deltaTime);
+		camera.ProcessKeyboard(2, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(RIGHT, deltaTime);
-		*/
+		camera.ProcessKeyboard(3, deltaTime);
+		
 }
 
 void RenderManager::loadTexture()
@@ -204,13 +188,13 @@ void RenderManager::mouse_callback(GLFWwindow * window, float xpos, float ypos)
 	lastX = xpos;
 	lastY = ypos;
 
-	//camera.ProcessMouseMovement(xoffset, yoffset);
+	camera.ProcessMouseMovement(xoffset, yoffset);
 	
 }
 
 void RenderManager::scroll_callback(GLFWwindow * window, float xoffset, float yoffset)
 {
-	//camera.ProcessMouseScroll(yoffset);
+	camera.ProcessMouseScroll(yoffset);
 }
 
 int RenderManager::run()

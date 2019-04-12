@@ -1,5 +1,5 @@
 #define _USE_MATH_DEFINES
-/*
+
 #include "Camera.h"
 Camera::Camera()
 {
@@ -45,7 +45,7 @@ Matrix4 Camera::lookAt(Vector3D eye, Vector3D target, Vector3D up)
 	left.Normalize();
 
 	// recompute the orthonormal up vector
-	Vector3D up = forward.Cross(left);    // cross product
+	Vector3D Up = forward.Cross(left);    // cross product
 
 	// init 4x4 matrix
 	Matrix4 matrix;
@@ -73,16 +73,16 @@ Matrix4 Camera::lookAt(Vector3D eye, Vector3D target, Vector3D up)
 }
 
 // Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
+void Camera::ProcessKeyboard(int direction, float deltaTime)
 {
 	float velocity = MovementSpeed * deltaTime;
-	if (direction == FORWARD)
+	if (direction == 0)
 		Position.add(Front * velocity);
-	if (direction == BACKWARD)
+	if (direction == 1)
 		Position.add(Front * -1.f * velocity);
-	if (direction == LEFT)
+	if (direction == 2)
 		Position.add(Right * -1.f * velocity);
-	if (direction == RIGHT)
+	if (direction == 3)
 		Position.add(Right * velocity);
 }
 
@@ -123,12 +123,12 @@ void Camera::updateCameraVectors()
 {
 	// Calculate the new Front vector
 	Vector3D front;
-	front.x = cos(Yaw * (M_PI/180.f)) * cos(Pitch * (M_PI / 180.f));
-	front.y = sin((Pitch) * (M_PI / 180.f));
-	front.z = sin((Yaw) * (M_PI / 180.f)) * cos((Pitch) * (M_PI / 180.f));
+	front.x = (float) cos(Yaw * (M_PI/180.f)) * (float)cos(Pitch * (M_PI / 180.f));
+	front.y = (float) sin((Pitch) * (M_PI / 180.f));
+	front.z = (float) sin((Yaw) * (M_PI / 180.f)) * (float)cos((Pitch) * (M_PI / 180.f));
 	Front = front.Normal();
 	// Also re-calculate the Right and Up vector
 	Right = (Cross(Front, WorldUp)).Normal();  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 	Up = (Cross(Right, Front)).Normal();
 }
-*/
+
