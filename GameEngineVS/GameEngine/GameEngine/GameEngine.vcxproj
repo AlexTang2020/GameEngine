@@ -162,7 +162,9 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cube.h" />
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Manager.h" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="MemAllocator.h" />
     <ClInclude Include="Point3D.h" />

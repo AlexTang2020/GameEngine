@@ -1,5 +1,6 @@
 #pragma once
-#include "Header.h"
+#include "Manager.h"
+#include "Math.h"
 
 class MemAllocator {
 public:

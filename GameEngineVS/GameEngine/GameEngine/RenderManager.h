@@ -1,5 +1,9 @@
 #pragma once
-#include "Header.h"
+#include "Manager.h"
+#include "Camera.h"
+#include "Math.h"
+#include "Graphics.h"
+
 class RenderManager
 {
 public:
