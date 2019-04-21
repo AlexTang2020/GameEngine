@@ -130,5 +130,11 @@
     <None Include="frag.shader">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="lightFrag.shader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lightVert.shader">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

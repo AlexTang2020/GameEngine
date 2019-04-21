@@ -5,6 +5,29 @@
 #include "RenderManager.h"
 //using namespace std;
 
+// settings
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+// camera
+Camera camera = Camera(Vector3D(0.0f, 0.0f, 3.0f), Vector3D(0.0f, 1.0f, 0.0f), Vector3D(0.0f, 0.0f, -1.0f), YAW, PITCH);
+float lastX = SCR_WIDTH / 2.0f;
+float lastY = SCR_HEIGHT / 2.0f;
+bool firstMouse = true;
+
+// timing
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
+
+// build and compile our shader program
+// ------------------------------------
+Shader lightingShader("lightVert.shader", "lightFrag.shader");
+Shader ourShader("vert.shader", "frag.shader"); // you can name your shader files however you like
+
+// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+unsigned int lightVAO;
+
+
 void RenderManager::GLFWSetUp() {
 	// glfw: initialize and configure
 	// ------------------------------
@@ -30,26 +53,7 @@ int GLFWwindowCheck(GLFWwindow* window) {
 	return 0;
 }
 
-int RenderManager::loadPointers() {
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
-	}
-	return 0;
-}
-
-//Deal with loading of vaos and vbos
-void RenderManager::assignBuffers(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb) {
-	glGenVertexArrays(va, &VAO);
-	glGenBuffers(vb, &VBO);
-	glGenBuffers(eb, &EBO);
-}
-
-
-void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
+void RenderManager::display(GLFWwindow* window, GLuint VAO) {
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -57,6 +61,10 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		// input
 		// -----
 		processInput(window);
@@ -74,7 +82,20 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		//transform = rotateAtMat((float)glfwGetTime(), transform, rAxis);
 		transform = rotateAtCenter((float) glfwGetTime(), trans, rAxis);
 		*/
+
+		// be sure to activate shader when setting uniforms/drawing objects
 		ourShader.use();
+		glUniform3f(glGetUniformLocation(ourShader.ID, "light.position"), 0.0f, 0.0f, 0.0f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "viewPos"), 0.0f, 0.0f, 0.0f);
+
+		// light properties
+		glUniform3f(glGetUniformLocation(ourShader.ID, "light.ambient"), 0.0f, 0.0f, 0.0f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "light.diffuse"), 0.0f, 0.0f, 0.0f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "light.specular"), 0.0f, 0.0f, 0.0f);
+
+		// material properties
+		ourShader.setFloat("material.shininess", 64.0f);
+
 		
 		//Basic set up to test when transformation is resolved
 		Matrix4 model = Matrix4();
@@ -86,17 +107,18 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		projection.setIdentity();
 		
 		//model = model.rotateConcat((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
-		view = camera.lookAt(camera.Position, camera.Position+camera.Front, camera.Up);
-		projection = perspective((float)(45.0f*M_PI)/180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		projection = perspective((float)(45.0f * M_PI) / 180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		ourShader.setMat4("projection", projection.mat4);
 
-		unsigned int modelLoc = glGetUniformLocation(ourShader.ID, "model");
-		unsigned int viewLoc = glGetUniformLocation(ourShader.ID, "view");
+		//view = camera.lookAt(camera.Position, camera.Position+camera.Front, camera.Up);		When I fix the transformations or lookat function
+		view = translate(0.0f,0.0f,-2.0f);
+		ourShader.setMat4("view", view.mat4);
+
+		model = scale(2.0f,2.0f,1.0f);
+		ourShader.setMat4("model", model.mat4);
 
 		// pass them to the shaders (3 different ways)
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view.mat4[0][0]);
 		// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
-		ourShader.setMat4("projection", projection.mat4);		
 		
 		//unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
 		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &model.mat4[0][0]);		//Can use value_ptr(transform) as well
@@ -104,97 +126,21 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
 
+		//NEED TO FIX TRANSFORMS
+		lightingShader.use();
+		lightingShader.setMat4("projection", projection.mat4);
+		lightingShader.setMat4("view", view.mat4);
+		model = translate(0.0f,0.0f,0.0f);
+		model = scale(0.2f,0.2f,0.2f); // a smaller cube
+		lightingShader.setMat4("model", model.mat4);
+		glBindVertexArray(lightVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-}
-
-
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
-void RenderManager::processInput(GLFWwindow *window)
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-	
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(0, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(1, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(2, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(3, deltaTime);
-		
-}
-
-void RenderManager::loadTexture()
-{
-	
-	// load and create a texture 
-	// -------------------------
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// load image, create texture and generate mipmaps
-	int width, height, nrChannels;
-	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-	// The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-	unsigned char *data = stbi_load("animeFood.png", &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "Failed to load texture" << std::endl;
-	}
-	stbi_image_free(data);
-	//Credit for image handling goes to https://github.com/nothings/stb/blob/master/stb_image.h
-	
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
-}
-
-void RenderManager::mouse_callback(GLFWwindow * window, float xpos, float ypos)
-{
-	
-	if (firstMouse)
-	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-
-	lastX = xpos;
-	lastY = ypos;
-
-	camera.ProcessMouseMovement(xoffset, yoffset);
-	
-}
-
-void RenderManager::scroll_callback(GLFWwindow * window, float xoffset, float yoffset)
-{
-	camera.ProcessMouseScroll(yoffset);
 }
 
 int RenderManager::run()
@@ -209,15 +155,19 @@ int RenderManager::run()
 		return -1;
 	}
 
+	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
+
+	// tell GLFW to capture our mouse
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 	if (loadPointers() == -1) {
 		return -1;
 	}
 	
 	glEnable(GL_DEPTH_TEST);
-
-	// build and compile our shader program
-	// ------------------------------------
-	Shader ourShader("vert.shader", "frag.shader"); // you can name your shader files however you like
 
 	//Cant place all class primitives in a single array
 	//Must make an array for each primitive (Instancing)
@@ -225,24 +175,151 @@ int RenderManager::run()
 
 	unsigned int VAO;			//LearnOpengl.com Instancing Tutorial for reorganizing primitives
     glGenVertexArrays(1, &VAO);	//Place VAO and VAO gen inside primitive class, just make array of class object and set up VAO binding
-   
-	//Cube cube(VAO);
+
+	Cube cube(VAO);
 	//Quad quad(VAO);
-	Pyramid pyr(VAO);
+	//Pyramid pyr(VAO);
 	//Sphere sph(VAO);
-	loadTexture();
+
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+
+	// note that we update the lamp's position attribute's stride to reflect the updated buffer data
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+
+	// shader configuration
+	// --------------------
+	ourShader.use();
+	ourShader.setInt("material.diffuse", 0);
+	ourShader.setInt("material.specular", 1);
+
+	unsigned int diffuseMap = loadTexture("animefood.png");
 	
-	display(window, ourShader, VAO);
+	display(window, VAO);
 	
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
-	//cube.deleteCube(VAO, 1);
+	cube.deleteCube(VAO, 1);
+	glDeleteVertexArrays(1, &lightVAO);
 	//quad.deleteQuad(VAO, 1);
-	pyr.deletePyramid(VAO,1);
+	//pyr.deletePyramid(VAO,1);
 	//sph.deleteSphere(VAO,1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	glfwTerminate();
 	return 0;
+}
+
+// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
+// ---------------------------------------------------------------------------------------------------------
+void RenderManager::processInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(0, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(1, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(2, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(3, deltaTime);
+
+}
+
+unsigned int RenderManager::loadTexture(char const* path)
+{
+
+	// load and create a texture 
+	// -------------------------
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+	int width, height, nrComponents;
+	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+		else						//nrComponents == 3
+			format = GL_RGB;
+
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Texture failed to load at path: " << path << std::endl;
+		stbi_image_free(data);
+	}
+
+	return textureID;
+	//Credit for image handling goes to https://github.com/nothings/stb/blob/master/stb_image.h
+
+}
+
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void framebuffer_size_callback(GLFWwindow * window, int width, int height)
+{
+	// make sure the viewport matches the new window dimensions; note that width and 
+	// height will be significantly larger than specified on retina displays.
+	glViewport(0, 0, width, height);
+}
+
+void mouse_callback(GLFWwindow * window, double xpos, double ypos)
+{
+
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+	lastX = xpos;
+	lastY = ypos;
+
+	camera.ProcessMouseMovement(xoffset, yoffset);
+
+}
+
+void scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
+{
+	camera.ProcessMouseScroll(yoffset);
+}
+
+int RenderManager::loadPointers() {
+	// glad: load all OpenGL function pointers
+	// ---------------------------------------
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return -1;
+	}
+	return 0;
+}
+
+//Deal with loading of vaos and vbos
+void RenderManager::assignBuffers(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb) {
+	glGenVertexArrays(va, &VAO);
+	glGenBuffers(vb, &VBO);
+	glGenBuffers(eb, &EBO);
 }

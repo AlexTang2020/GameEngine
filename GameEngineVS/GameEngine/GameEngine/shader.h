@@ -102,7 +102,7 @@ public:
 	{
 		glUseProgram(ID);
 	}
-	/*
+	
 	// utility uniform functions
 	// ------------------------------------------------------------------------
 	void setBool(const std::string &name, bool value) const
@@ -119,6 +119,7 @@ public:
 	{
 		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 	}
+	/*
 	// ------------------------------------------------------------------------
 	void setVec2(const std::string &name, const glm::vec2 &value) const
 	{

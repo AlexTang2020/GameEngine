@@ -247,12 +247,12 @@ Vector3D concat(Vector3D left, Matrix4 &right)
 	float vx = left.x;
 	float vy = left.y;
 	float vz = left.z;
-	float vw = left.w;
+	int vw = left.w;
 
 	float x = vx * right.mat4[0][0] + vy * right.mat4[1][0] + vz * right.mat4[2][0] + vw * right.mat4[3][0];
 	float y = vx * right.mat4[0][1] + vy * right.mat4[1][1] + vz * right.mat4[2][1] + vw * right.mat4[3][1];
 	float z = vx * right.mat4[0][2] + vy * right.mat4[1][2] + vz * right.mat4[2][2] + vw * right.mat4[3][2];
-	float w = vx * right.mat4[0][3] + vy * right.mat4[1][3] + vz * right.mat4[2][3] + vw * right.mat4[3][3];
+	int w = vx * right.mat4[0][3] + vy * right.mat4[1][3] + vz * right.mat4[2][3] + vw * right.mat4[3][3];
 	return Vector3D(x, y, z, w);
 }
 

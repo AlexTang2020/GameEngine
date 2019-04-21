@@ -3,6 +3,16 @@
 #include "Camera.h"
 Camera::Camera()
 {
+	Position = Vector3D(0.0f,0.0f,0.0f);
+	WorldUp = Vector3D(0.0f, 1.0f, 0.0f);
+	Up = Vector3D(0.0f, 1.0f, 0.0f);
+	Front = Vector3D(0.0f,0.0f,-1.0f);
+	MovementSpeed = SPEED;
+	MouseSensitivity = SENSITIVITY;
+	Pitch = PITCH;
+	Yaw = YAW;
+	Zoom = ZOOM;
+	updateCameraVectors();
 }
 
 Camera::~Camera()
@@ -10,10 +20,12 @@ Camera::~Camera()
 }
 
 // Constructor with vectors
-Camera::Camera(Vector3D position, Vector3D up, float yaw, float pitch) : Front(Vector3D(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+Camera::Camera(Vector3D position, Vector3D up, Vector3D front, float yaw, float pitch) : MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
 	Position = position;
-	WorldUp = up;
+	WorldUp = Vector3D(0.0f,1.0f,0.0f);
+	Up = up;
+	Front = front;
 	Yaw = yaw;
 	Pitch = pitch;
 	updateCameraVectors();

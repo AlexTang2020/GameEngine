@@ -7,19 +7,6 @@
 class RenderManager
 {
 public:
-	// settings
-	const unsigned int SCR_WIDTH = 800;
-	const unsigned int SCR_HEIGHT = 600;
-	
-	// camera
-	Camera camera = Camera( Vector3D(0.0f, 0.0f, 3.0f), Vector3D(0.0f,1.0f,0.0f), YAW, PITCH);
-	float lastX = SCR_WIDTH / 2.0f;
-	float lastY = SCR_HEIGHT / 2.0f;
-	bool firstMouse = true;
-
-	// timing
-	float deltaTime = 0.0f;	// time between current frame and last frame
-	float lastFrame = 0.0f;
 	
 	RenderManager()
 	{
@@ -38,15 +25,16 @@ public:
 	void assignBuffers(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
 
 
-	void display(GLFWwindow* window, Shader ourShader, GLuint vao);
+	void display(GLFWwindow* window, GLuint vao);
 	void processInput(GLFWwindow *window);
-	void mouse_callback(GLFWwindow* window, float xpos, float ypos);
-	void scroll_callback(GLFWwindow* window, float xoffset, float yoffset);
-	void loadTexture();
+	unsigned int loadTexture(char const* path);
 
 	int run();
 };
 
 int GLFWwindowCheck(GLFWwindow* window);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
 
