@@ -1,7 +1,7 @@
 #version 450
 
 out vec4 FragColor;
-
+/*
 struct Material {
 	sampler2D diffuse;
 	//sampler2D specular;
@@ -15,21 +15,22 @@ struct Light {
 	vec3 diffuse;
 	vec3 specular;
 };
-
+*/
 in vec2 TexCoord;
-in vec3 Normal;
-in vec3 FragPos;
+//in vec3 Normal;
+//in vec3 FragPos;
 
-uniform vec3 lightPos;
-uniform vec3 viewPos;
-uniform Material material;
-uniform Light light;
+//uniform vec3 lightPos;
+//uniform vec3 viewPos;
+//uniform Material material;
+//uniform Light light;
 
 // texture samplers
 uniform sampler2D texture1;
 
 void main()
 {
+	/*
 	// ambient
 	vec3 ambient = light.ambient * texture(material.diffuse, TexCoords).rgb;
 
@@ -48,4 +49,6 @@ void main()
 
 	vec3 result = (ambient + diffuse + specular);
 	FragColor = vec4(result, 1.0);
+	*/
+	FragColor = texture(texture1, TexCoord);
 }

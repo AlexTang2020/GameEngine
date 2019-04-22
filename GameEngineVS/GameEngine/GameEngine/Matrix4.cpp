@@ -7,7 +7,7 @@ Matrix4::Matrix4()
 {
 	for (int row = 0; row < 4; row++) {
 		for (int col = 0; col < 4; col++) {
-			mat4[row][col] = 0.f;
+			mat4[row][col] = 0.0f;
 		}
 	}
 }
@@ -24,14 +24,15 @@ void Matrix4::setIdentity()
 	}
 }
 
-Matrix4 translate(float x, float y, float z)
+Matrix4 translate(Matrix4 mat, float x, float y, float z)
 {
 	Matrix4 mTrans = Matrix4();
 	mTrans.setIdentity();
-	mTrans.mat4[3][0] = x;
-	mTrans.mat4[3][1] = y;
-	mTrans.mat4[3][2] = z;
-	return mTrans;
+	mTrans.mat4[3][0] += x;
+	mTrans.mat4[3][1] += y;
+	mTrans.mat4[3][2] += z;
+	Matrix4 result = mat.concatenate(mTrans);
+	return result;
 }
 
 /*
@@ -40,14 +41,15 @@ Matrix4 translateVec(Vector3D vec) {
 }
 */
 
-Matrix4 scale(float x, float y, float z)
+Matrix4 scale(Matrix4 mat, float x, float y, float z)
 {
 	Matrix4 mScale = Matrix4();
 	mScale.setIdentity();
 	mScale.mat4[0][0] *= x;
 	mScale.mat4[1][1] *= y;
 	mScale.mat4[2][2] *= z;
-	return mScale;
+	Matrix4 result = mat.concatenate(mScale);
+	return result;
 }
 
 /*
@@ -154,7 +156,7 @@ void Matrix4::transpose()
 	
 }
 
-Matrix4 rotate(float angle, float x, float y, float z) {
+Matrix4 rotate(Matrix4 mat, float angle, float x, float y, float z) {
 	float c = cosf(angle);
 	float s = sinf(angle);
 	float t = 1.0f - c;
@@ -165,6 +167,7 @@ Matrix4 rotate(float angle, float x, float y, float z) {
 	float zN = rNormal.z;
 
 	Matrix4 rMat = Matrix4();
+	rMat.setIdentity();
 	rMat.mat4[0][0] = 1 + t * (xN*xN - 1);
 	rMat.mat4[0][1] = zN * s + t * xN*yN;
 	rMat.mat4[0][2] = -yN * s + t * xN*zN;
@@ -185,7 +188,9 @@ Matrix4 rotate(float angle, float x, float y, float z) {
 	rMat.mat4[3][2] = 0.0f;
 	rMat.mat4[3][3] = 1.0f;
 
-	return rMat;
+	Matrix4 result = mat.concatenate(rMat);
+
+	return result;
 }
 
 /*
@@ -194,10 +199,8 @@ Matrix4 rotateVec(float angle, Vector3D rAxis) {
 }
 */
 
-Matrix4 rotateX(float angle)
+Matrix4 rotateX(Matrix4 mRotate, float angle)
 {
-	Matrix4 mRotate = Matrix4();
-	mRotate.setIdentity();
 	mRotate.mat4[1][1] = cosf(angle);
 	mRotate.mat4[1][2] = sinf(angle);
 	mRotate.mat4[2][1] =-sinf(angle);
@@ -205,10 +208,8 @@ Matrix4 rotateX(float angle)
 	return mRotate;
 }
 
-Matrix4 rotateY(float angle)
+Matrix4 rotateY(Matrix4 mRotate, float angle)
 {
-	Matrix4 mRotate = Matrix4();
-	mRotate.setIdentity();
 	mRotate.mat4[0][0] = cosf(angle);
 	mRotate.mat4[0][2] =-sinf(angle);
 	mRotate.mat4[2][0] = sinf(angle);
@@ -217,10 +218,8 @@ Matrix4 rotateY(float angle)
 
 }
 
-Matrix4 rotateZ(float angle)
+Matrix4 rotateZ(Matrix4 mRotate, float angle)
 {
-	Matrix4 mRotate = Matrix4();
-	mRotate.setIdentity();
 	mRotate.mat4[0][0] =  cosf(angle);
 	mRotate.mat4[0][1] =  sinf(angle);
 	mRotate.mat4[1][0] = -sinf(angle);
@@ -228,19 +227,21 @@ Matrix4 rotateZ(float angle)
 	return mRotate;
 }
 
-Matrix4 rotateAtCenter(float angle, Vector3D center, Vector3D rAxis) {
+/*
+Matrix4 rotateAtCenter(Matrix4 mRotate, float angle, Vector3D center, Vector3D rAxis) {
 	Vector3D inVec = center * -1;
-	Matrix4 invTrans = translate(inVec.x, inVec.y, inVec.z);
-	Matrix4 rotation = rotate(angle, rAxis.x, rAxis.y, rAxis.z);
-	Matrix4 trans = translate(center.x, center.y, center.z);
+	Matrix4 invTrans = translate(mRotate, inVec.x, inVec.y, inVec.z);
+	Matrix4 rotation = rotate(mRotate, angle, rAxis.x, rAxis.y, rAxis.z);
+	Matrix4 trans = translate(mRotate, center.x, center.y, center.z);
 	return rotation.concatenate(trans);
 }
 
-Matrix4 rotateAtMat(float angle, Matrix4 trans, Vector3D rAxis)
+Matrix4 rotateAtMat(Matrix4 mRotate, float angle, Matrix4 trans, Vector3D rAxis)
 {
-	Matrix4 rotation = rotate(angle, rAxis.x, rAxis.y, rAxis.z);
+	Matrix4 rotation = rotate(mRotate, angle, rAxis.x, rAxis.y, rAxis.z);
 	return trans.concatenate(rotation);
 }
+*/
 
 Vector3D concat(Vector3D left, Matrix4 &right)
 {
@@ -291,9 +292,9 @@ Matrix4 Matrix4::concatenate(Matrix4 & right)
 	return copy;
 }
 
-Matrix4 Matrix4::rotateConcat(float angle, float x, float y, float z)
+Matrix4 Matrix4::rotateConcat(Matrix4 mat, float angle, float x, float y, float z)
 {
-	Matrix4 rot = rotate(angle, x, y, z);
+	Matrix4 rot = rotate(mat, angle, x, y, z);
 	return concatenate(rot);
 }
 

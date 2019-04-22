@@ -17,24 +17,25 @@ public:
 	void transpose();				//Transpose the matrix
 
 	Matrix4 concatenate(Matrix4& right);	//Multiply matrix with another matrix on the RHS
-	Matrix4 rotateConcat(float angle, float x, float y, float z); //Rotate about specified axis
+	Matrix4 rotateConcat(Matrix4 mat, float angle, float x, float y, float z); //Rotate about specified axis
 
 private:
 
 };
 
-Matrix4 translate(float x, float y, float z);		//Translate/Move matrix via floats
+Matrix4 translate(Matrix4 mat, float x, float y, float z);		//Translate/Move matrix via floats
 //Matrix4 translateVec(Vector3D vec);					//Translate/Move matrix via vector
-Matrix4 scale(float x, float y, float z);			//Multiply matrix to scale non-uniformly
+Matrix4 scale(Matrix4 mat, float x, float y, float z);			//Multiply matrix to scale non-uniformly
 //Matrix4 scaleUniform(float val);			//Multiply matrix to scale uniformly
 
-Matrix4 rotate(float angle, float x, float y, float z); //Rotate about specified axis
+Matrix4 rotate(Matrix4 mat, float angle, float x, float y, float z); //Rotate about specified axis
 //Matrix4 rotateVec(float angle, Vector3D rAxis); //Rotate about specified axis
-Matrix4 rotateX(float angle);		//Rotate about the x axix
-Matrix4 rotateY(float angle);		//Rotate about the y axis
-Matrix4 rotateZ(float angle);		//Rotate about the z axis
-Matrix4 rotateAtCenter(float angle, Vector3D center, Vector3D rAxis);	//Rotate around specified center and axis (Local)
-Matrix4 rotateAtMat(float angle, Matrix4 trans, Vector3D rAxis);	//Rotate around specified matrix and axis (Global)
+Matrix4 rotateX(Matrix4 mRotate, float angle);		//Rotate about the x axix
+Matrix4 rotateY(Matrix4 mRotate, float angle);		//Rotate about the y axis
+Matrix4 rotateZ(Matrix4 mRotate, float angle);		//Rotate about the z axis
+
+//Matrix4 rotateAtCenter(Matrix4 mRotate, float angle, Vector3D center, Vector3D rAxis);	//Rotate around specified center and axis (Local)
+//Matrix4 rotateAtMat(Matrix4 mRotate, float angle, Matrix4 trans, Vector3D rAxis);	//Rotate around specified matrix and axis (Global)
 
 Vector3D concat(Vector3D left, Matrix4 &right);
 

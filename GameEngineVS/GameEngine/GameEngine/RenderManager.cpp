@@ -19,15 +19,6 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-// build and compile our shader program
-// ------------------------------------
-Shader lightingShader("lightVert.shader", "lightFrag.shader");
-Shader ourShader("vert.shader", "frag.shader"); // you can name your shader files however you like
-
-// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
-unsigned int lightVAO;
-
-
 void RenderManager::GLFWSetUp() {
 	// glfw: initialize and configure
 	// ------------------------------
@@ -53,7 +44,7 @@ int GLFWwindowCheck(GLFWwindow* window) {
 	return 0;
 }
 
-void RenderManager::display(GLFWwindow* window, GLuint VAO) {
+void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -85,6 +76,7 @@ void RenderManager::display(GLFWwindow* window, GLuint VAO) {
 
 		// be sure to activate shader when setting uniforms/drawing objects
 		ourShader.use();
+		/*
 		glUniform3f(glGetUniformLocation(ourShader.ID, "light.position"), 0.0f, 0.0f, 0.0f);
 		glUniform3f(glGetUniformLocation(ourShader.ID, "viewPos"), 0.0f, 0.0f, 0.0f);
 
@@ -95,7 +87,7 @@ void RenderManager::display(GLFWwindow* window, GLuint VAO) {
 
 		// material properties
 		ourShader.setFloat("material.shininess", 64.0f);
-
+		*/
 		
 		//Basic set up to test when transformation is resolved
 		Matrix4 model = Matrix4();
@@ -105,17 +97,20 @@ void RenderManager::display(GLFWwindow* window, GLuint VAO) {
 		model.setIdentity();
 		view.setIdentity();
 		projection.setIdentity();
-		
-		//model = model.rotateConcat((float)glfwGetTime(), 0.5f, 1.0f, 0.0f);
+
+		model = rotate(model, glfwGetTime(), 0.0f, 0.0f, 1.0f);
+		model = translate(model, 0.0f, 0.0f, -2.0f);
+		//model = scale(model, 0.5f,0.5f,0.5f);
+
 		projection = perspective((float)(45.0f * M_PI) / 180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		ourShader.setMat4("projection", projection.mat4);
 
-		//view = camera.lookAt(camera.Position, camera.Position+camera.Front, camera.Up);		When I fix the transformations or lookat function
-		view = translate(0.0f,0.0f,-2.0f);
+		//view = camera.lookAt(camera.Position, camera.Position+camera.Front, camera.Up);		
+		view = translate(view, 0.0f, 0.0f, -1.0f);
+
+		ourShader.setMat4("model", model.mat4);
 		ourShader.setMat4("view", view.mat4);
 
-		model = scale(2.0f,2.0f,1.0f);
-		ourShader.setMat4("model", model.mat4);
 
 		// pass them to the shaders (3 different ways)
 		// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
@@ -126,6 +121,7 @@ void RenderManager::display(GLFWwindow* window, GLuint VAO) {
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
 
+		/*
 		//NEED TO FIX TRANSFORMS
 		lightingShader.use();
 		lightingShader.setMat4("projection", projection.mat4);
@@ -135,6 +131,7 @@ void RenderManager::display(GLFWwindow* window, GLuint VAO) {
 		lightingShader.setMat4("model", model.mat4);
 		glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+		*/
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -176,13 +173,20 @@ int RenderManager::run()
 	unsigned int VAO;			//LearnOpengl.com Instancing Tutorial for reorganizing primitives
     glGenVertexArrays(1, &VAO);	//Place VAO and VAO gen inside primitive class, just make array of class object and set up VAO binding
 
-	Cube cube(VAO);
-	//Quad quad(VAO);
-	//Pyramid pyr(VAO);
-	//Sphere sph(VAO);
-
+	// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+	unsigned int lightVAO;
 	glGenVertexArrays(1, &lightVAO);
 	glBindVertexArray(lightVAO);
+
+	// build and compile our shader program
+	// ------------------------------------
+	//Shader lightingShader("lightVert.shader", "lightFrag.shader");
+	Shader ourShader("vert.shader", "frag.shader");
+
+	//Cube cube(VAO);
+	//Quad quad(VAO);
+	Pyramid pyr(VAO);
+	//Sphere sph(VAO);
 
 	// note that we update the lamp's position attribute's stride to reflect the updated buffer data
 	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -192,19 +196,19 @@ int RenderManager::run()
 	// shader configuration
 	// --------------------
 	ourShader.use();
-	ourShader.setInt("material.diffuse", 0);
-	ourShader.setInt("material.specular", 1);
+	//ourShader.setInt("material.diffuse", 0);
+	//ourShader.setInt("material.specular", 1);
 
 	unsigned int diffuseMap = loadTexture("animefood.png");
 	
-	display(window, VAO);
+	display(window, ourShader, VAO);
 	
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
-	cube.deleteCube(VAO, 1);
-	glDeleteVertexArrays(1, &lightVAO);
+	//cube.deleteCube(VAO, 1);
+	//glDeleteVertexArrays(1, &lightVAO);
 	//quad.deleteQuad(VAO, 1);
-	//pyr.deletePyramid(VAO,1);
+	pyr.deletePyramid(VAO,1);
 	//sph.deleteSphere(VAO,1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
@@ -239,6 +243,7 @@ unsigned int RenderManager::loadTexture(char const* path)
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 	int width, height, nrComponents;
+	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
 	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
 	if (data)
 	{
