@@ -22,7 +22,7 @@ void Sphere::calculateVertandInd()
 	{
 		for (int j = 0; j <= prec; j++)
 		{
-			float y = (float)cos((180.f - i * 180.f / prec) * (M_PI/180.0f));
+			float y = (float)cos((180.f - (float)(i * 180.f / prec)) * (M_PI/180.0f));
 			float x = -(float)cos((j*360.0 / prec) * (M_PI / 180.0f))*(float)abs(cos(asin(y)));
 			float z = (float)sin((j*360.0f / (float)(prec))  * (M_PI / 180.0f))*(float)abs(cos(asin(y)));
 			vertices[i*(prec + 1) + j].setLocation(x, y, z);

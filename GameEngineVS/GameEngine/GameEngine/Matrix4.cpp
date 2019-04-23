@@ -298,23 +298,28 @@ Matrix4 Matrix4::rotateConcat(Matrix4 mat, float angle, float x, float y, float 
 	return concatenate(rot);
 }
 
-Matrix4 perspective(float width, float height, float zNear, float zFar){	
+Matrix4 perspective(float fov, float aspect, float zNear, float zFar){	
+
+	float yScale = 1.0 / tan(fov / 2);
+	float xScale = yScale / aspect;
+	float nearFar = zNear - zFar;
+
 	Matrix4 pMat = Matrix4();
 	pMat.setIdentity();
-	pMat.mat4[0][0] = 2.0f * zNear / width;
+	pMat.mat4[0][0] = xScale;
 	pMat.mat4[1][0] = 0.0f;
 	pMat.mat4[2][0] = 0.0f;
 	pMat.mat4[3][0] = 0.0f;
 
 	pMat.mat4[0][1] = 0.0f;
-	pMat.mat4[1][1] = 2.0f * zNear / height;
+	pMat.mat4[1][1] = yScale;
 	pMat.mat4[2][1] = 0.0f;
 	pMat.mat4[3][1] = 0.0f;
 
 	pMat.mat4[0][2] = 0.0f;
 	pMat.mat4[1][2] = 0.0f;
-	pMat.mat4[2][2] = zFar / (zNear - zFar);
-	pMat.mat4[3][2] = zFar * zNear / (zNear - zFar);
+	pMat.mat4[2][2] = (zFar + zNear) / nearFar;
+	pMat.mat4[3][2] = 2 * zFar * zNear / nearFar;
 
 	pMat.mat4[0][3] = 0.0f;
 	pMat.mat4[1][3] = 0.0f;

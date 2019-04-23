@@ -116,6 +116,8 @@ int main(int argc, const char* argv)
 	*/
 	
 	std::cout << "Engine startup\n";
+	std::string input;
+	std::cin >> input;
 	gameManager.run();
 	std::cout << "Engine shutdown\n";
 	return 0;

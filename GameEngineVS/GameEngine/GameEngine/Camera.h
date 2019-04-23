@@ -7,7 +7,7 @@ class Camera
 public:
 	Camera();
 	~Camera();
-	Camera(Vector3D position, Vector3D up, Vector3D front, float yaw, float pitch);
+	Camera(Vector3D position, Vector3D wUp, float yaw, float pitch);
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
 
 	// Camera Attributes

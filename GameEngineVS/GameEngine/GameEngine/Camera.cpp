@@ -20,12 +20,10 @@ Camera::~Camera()
 }
 
 // Constructor with vectors
-Camera::Camera(Vector3D position, Vector3D up, Vector3D front, float yaw, float pitch) : MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+Camera::Camera(Vector3D position, Vector3D wUp, float yaw, float pitch) : MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
 	Position = position;
-	WorldUp = Vector3D(0.0f,1.0f,0.0f);
-	Up = up;
-	Front = front;
+	WorldUp = wUp;
 	Yaw = yaw;
 	Pitch = pitch;
 	updateCameraVectors();
@@ -43,7 +41,7 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 
 Matrix4 Camera::GetViewMatrix()
 {
-	return lookAt(Position, Position + Front, Up);
+	return lookAt(Position, Position + Front, WorldUp);
 }
 
 Matrix4 Camera::lookAt(Vector3D eye, Vector3D target, Vector3D up)
@@ -53,35 +51,58 @@ Matrix4 Camera::lookAt(Vector3D eye, Vector3D target, Vector3D up)
 	forward.Normalize();                 // make unit length
 
 	// compute the left vector
-	Vector3D left = up.Cross(forward); // cross product
+	Vector3D upNorm = up.Normal();
+	Vector3D left = upNorm.Cross(forward); // cross product
 	left.Normalize();
 
 	// recompute the orthonormal up vector
 	Vector3D Up = forward.Cross(left);    // cross product
+	
+	Matrix4 translation = Matrix4(); 
+	translation.setIdentity();
+	translation.mat4[3][0] = eye.x; // Third column, first row
+	translation.mat4[3][1] = eye.y;
+	translation.mat4[3][2] = eye.z;
 
+	Matrix4 rotation = Matrix4();
+	rotation.setIdentity();
+	rotation.mat4[0][0] = left.x; // First column, first row
+	rotation.mat4[1][0] = left.y;
+	rotation.mat4[2][0] = left.z;
+	rotation.mat4[0][1] = Up.x; // First column, second row
+	rotation.mat4[1][1] = Up.y;
+	rotation.mat4[2][1] = Up.z;
+	rotation.mat4[0][2] = forward.x; // First column, third row
+	rotation.mat4[1][2] = forward.y;
+	rotation.mat4[2][2] = forward.z;
+	
+	return translation.concatenate(rotation);
+	
+	/*
 	// init 4x4 matrix
 	Matrix4 matrix;
 	matrix.setIdentity();
 
 	// set rotation part, inverse rotation matrix: M^-1 = M^T for Euclidean transform
 	matrix.mat4[0][0] = left.x;
-	matrix.mat4[0][1] = left.y;
-	matrix.mat4[0][2] = left.z;
+	matrix.mat4[1][0] = left.y;
+	matrix.mat4[2][0] = left.z;
 
-	matrix.mat4[1][0] = up.x;
-	matrix.mat4[1][1] = up.y;
-	matrix.mat4[1][2] = up.z;
+	matrix.mat4[0][1] = Up.x;
+	matrix.mat4[1][1] = Up.y;
+	matrix.mat4[2][1] = Up.z;
 	
-	matrix.mat4[2][0] = forward.x;
-	matrix.mat4[2][1] = forward.y;
+	matrix.mat4[0][2] = forward.x;
+	matrix.mat4[1][2] = forward.y;
 	matrix.mat4[2][2] = forward.z;
 
 	// set translation part
-	matrix.mat4[0][3] = -left.x * eye.x - left.y * eye.y - left.z * eye.z;
-	matrix.mat4[1][3] = -up.x * eye.x - up.y * eye.y - up.z * eye.z;
-	matrix.mat4[2][3] = -forward.x * eye.x - forward.y * eye.y - forward.z * eye.z;
+	matrix.mat4[3][0] = -(-left.x * eye.x - left.y * eye.y - left.z * eye.z);
+	matrix.mat4[3][1] = -(-Up.x * eye.x - Up.y * eye.y - Up.z * eye.z);
+	matrix.mat4[3][2] = -(-forward.x * eye.x - forward.y * eye.y - forward.z * eye.z);
 
 	return matrix;
+	*/
 }
 
 // Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -105,7 +126,7 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constr
 	yoffset *= MouseSensitivity;
 
 	Yaw += xoffset;
-	Pitch += yoffset;
+	Pitch -= yoffset;
 
 	// Make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (constrainPitch)

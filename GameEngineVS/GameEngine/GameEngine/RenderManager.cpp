@@ -10,7 +10,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
-Camera camera = Camera(Vector3D(0.0f, 0.0f, 3.0f), Vector3D(0.0f, 1.0f, 0.0f), Vector3D(0.0f, 0.0f, -1.0f), YAW, PITCH);
+Camera camera = Camera(Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 1.0f, 0.0f), YAW, PITCH);
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -98,15 +98,15 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		view.setIdentity();
 		projection.setIdentity();
 
-		model = rotate(model, glfwGetTime(), 0.0f, 0.0f, 1.0f);
-		model = translate(model, 0.0f, 0.0f, -2.0f);
+		//model = rotate(model, glfwGetTime(), 0.0f, 0.0f, 1.0f);
+		model = translate(model, 0.0f, 0.0f, 3.0f);
 		//model = scale(model, 0.5f,0.5f,0.5f);
 
 		projection = perspective((float)(45.0f * M_PI) / 180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		ourShader.setMat4("projection", projection.mat4);
 
-		//view = camera.lookAt(camera.Position, camera.Position+camera.Front, camera.Up);		
-		view = translate(view, 0.0f, 0.0f, -1.0f);
+		view = camera.GetViewMatrix();
+		//view = translate(view, 0.0f, 0.0f, -1.0f);
 
 		ourShader.setMat4("model", model.mat4);
 		ourShader.setMat4("view", view.mat4);
@@ -185,8 +185,8 @@ int RenderManager::run()
 
 	//Cube cube(VAO);
 	//Quad quad(VAO);
-	Pyramid pyr(VAO);
-	//Sphere sph(VAO);
+	//Pyramid pyr(VAO);
+	Sphere sph(VAO);
 
 	// note that we update the lamp's position attribute's stride to reflect the updated buffer data
 	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -199,7 +199,7 @@ int RenderManager::run()
 	//ourShader.setInt("material.diffuse", 0);
 	//ourShader.setInt("material.specular", 1);
 
-	unsigned int diffuseMap = loadTexture("animefood.png");
+	unsigned int diffuseMap = loadTexture("Rainbow.png");
 	
 	display(window, ourShader, VAO);
 	
@@ -208,8 +208,8 @@ int RenderManager::run()
 	//cube.deleteCube(VAO, 1);
 	//glDeleteVertexArrays(1, &lightVAO);
 	//quad.deleteQuad(VAO, 1);
-	pyr.deletePyramid(VAO,1);
-	//sph.deleteSphere(VAO,1);
+	//pyr.deletePyramid(VAO,1);
+	sph.deleteSphere(VAO,1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
