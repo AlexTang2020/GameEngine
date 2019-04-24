@@ -3,6 +3,7 @@
 
 
 #include "RenderManager.h"
+
 //using namespace std;
 
 // settings
@@ -19,6 +20,7 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
+
 
 void RenderManager::GLFWSetUp() {
 	// glfw: initialize and configure
@@ -45,7 +47,7 @@ int GLFWwindowCheck(GLFWwindow* window) {
 	return 0;
 }
 
-void RenderManager::display(GLFWwindow* window, Shader ourShader, Shader lShader, GLuint VAO, GLuint lVAO) {
+void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -65,18 +67,10 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, Shader lShader
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
-		/*
-		Matrix4 transform = Matrix4();
-		transform.setIdentity();
-		Vector3D trans = Vector3D(0.5f, -.5f, 0.0f);
-		Vector3D rAxis = Vector3D(0.0f, 0.0f, 1.0f);
-		//transform = translate(trans.x, trans.y, trans.z);
-		//transform = rotateAtMat((float)glfwGetTime(), transform, rAxis);
-		transform = rotateAtCenter((float) glfwGetTime(), trans, rAxis);
-		*/
 
 		// be sure to activate shader when setting uniforms/drawing objects
 		ourShader.use();
+		
 		
 		glUniform3f(glGetUniformLocation(ourShader.ID, "light.direction"), -0.2f, -1.0f, -0.3f);
 		glUniform3f(glGetUniformLocation(ourShader.ID, "viewPos"), camera.Position.x, camera.Position.y, camera.Position.z);
@@ -99,25 +93,15 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, Shader lShader
 		view.setIdentity();
 		projection.setIdentity();
 
-		//model = rotate(model, glfwGetTime(), 0.0f, 0.0f, 1.0f);
 		model = translate(model, 0.0f, 0.0f, 3.0f);
-		//model = scale(model, 0.5f,0.5f,0.5f);
 
 		projection = perspective((float)(45.0f * M_PI) / 180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		ourShader.setMat4("projection", projection.mat4);
 
 		view = camera.GetViewMatrix();
-		//view = translate(view, 0.0f, 0.0f, -1.0f);
 
 		ourShader.setMat4("model", model.mat4);
 		ourShader.setMat4("view", view.mat4);
-
-
-		// pass them to the shaders (3 different ways)
-		// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
-		
-		//unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &model.mat4[0][0]);		//Can use value_ptr(transform) as well
 
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
@@ -168,46 +152,43 @@ int RenderManager::run()
 	
 	glEnable(GL_DEPTH_TEST);
 
-	//Cant place all class primitives in a single array
-	//Must make an array for each primitive (Instancing)
-	//Can be fixed if all objects were under a messh class instead using ASSIMP
-
 	unsigned int VAO;			//LearnOpengl.com Instancing Tutorial for reorganizing primitives
     glGenVertexArrays(1, &VAO);	//Place VAO and VAO gen inside primitive class, just make array of class object and set up VAO binding
 
 	// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
-	unsigned int lightVAO;
-	glGenVertexArrays(1, &lightVAO);
-	glBindVertexArray(lightVAO);
+	//unsigned int lightVAO;
+	//glGenVertexArrays(1, &lightVAO);
+	//glBindVertexArray(lightVAO);
 
 	// build and compile our shader program
 	// ------------------------------------
 	Shader ourShader("vert.shader", "frag.shader");
-	Shader lightingShader("lightVert.shader", "lightFrag.shader");
+	//Shader lightingShader("lightVert.shader", "lightFrag.shader");
+	//Shader ourShader("modelVert.shader", "modelFrag.shader");
 
 	//Cube cube(VAO);
 	//Quad quad(VAO);
 	//Pyramid pyr(VAO);
 	Sphere sph(VAO);
-	Cube lCube(lightVAO);
+	//Cube lCube(lightVAO);
 	// note that we update the lamp's position attribute's stride to reflect the updated buffer data
 	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	//glEnableVertexAttribArray(0);
 
 	
 	// shader configuration
 	// --------------------
 	ourShader.use();
-	//ourShader.setInt("material.diffuse", 0);
-	//ourShader.setInt("material.specular", 1);
+	ourShader.setInt("material.diffuse", 0);
+	ourShader.setInt("material.specular", 1);
 
-	unsigned int diffuseMap = loadTexture("Rainbow.png");
+	unsigned int diffuseMap = loadTexture("textures/Rainbow.png");
 	
 	// bind diffuse map
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, diffuseMap);
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, diffuseMap);
 
-	display(window, ourShader, lightingShader, VAO, lightVAO);
+	display(window, ourShader, VAO);//, lightingShader, VAO, lightVAO);
 	
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
@@ -215,7 +196,7 @@ int RenderManager::run()
 	//quad.deleteQuad(VAO, 1);
 	//pyr.deletePyramid(VAO,1);
 	sph.deleteSphere(VAO,1);
-	lCube.deleteCube(lightVAO, 1);
+	//lCube.deleteCube(lightVAO, 1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

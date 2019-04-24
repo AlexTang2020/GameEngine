@@ -1,0 +1,30 @@
+﻿  glad.c
+  AudioManager.cpp
+  Camera.cpp
+  Cube.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Model.h(2): fatal error C1083: Cannot open include file: 'assimp/Importer.hpp': No such file or directory
+  GameManager.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Model.h(2): fatal error C1083: Cannot open include file: 'assimp/Importer.hpp': No such file or directory
+  Matrix4.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Matrix4.cpp(256): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Matrix4.cpp(303): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  MemAllocater.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Model.h(2): fatal error C1083: Cannot open include file: 'assimp/Importer.hpp': No such file or directory
+  Mesh.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Mesh.cpp(46): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  Model.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Model.h(2): fatal error C1083: Cannot open include file: 'assimp/Importer.hpp': No such file or directory
+  Point3D.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Point3D.cpp(38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Pyramid.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Model.h(2): fatal error C1083: Cannot open include file: 'assimp/Importer.hpp': No such file or directory
+  Quad.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Model.h(2): fatal error C1083: Cannot open include file: 'assimp/Importer.hpp': No such file or directory
+  Quaternion.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Quaternion.cpp(120): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Vector3D.cpp
+  RenderManager.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Model.h(2): fatal error C1083: Cannot open include file: 'assimp/Importer.hpp': No such file or directory
+  Sphere.cpp
+C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\Model.h(2): fatal error C1083: Cannot open include file: 'assimp/Importer.hpp': No such file or directory
+  Vertex3D.cpp

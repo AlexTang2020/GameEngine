@@ -3,10 +3,10 @@
 
 Quad::Quad(GLuint VAO)
 {
-	vertices[0] = Vertex3D(0.5f, 0.5f, 0.f, 1.0f, 1.0f);		vertices[0].setNormal(Vector3D(0.0f, 0.0f, 1.0f));
-	vertices[1] = Vertex3D(0.5f, -0.5f, 0.f, 1.0f, 0.0f);		vertices[1].setNormal(Vector3D(0.0f, 0.0f, 1.0f));
-	vertices[2] = Vertex3D(-0.5f, -0.5f, 0.f, 0.0f, 0.0f);		vertices[2].setNormal(Vector3D(0.0f, 0.0f, 1.0f));
-	vertices[3] = Vertex3D(-0.5f, 0.5f, 0.f, 0.0f, 1.0f);		vertices[3].setNormal(Vector3D(0.0f, 0.0f, 1.0f));
+	vertices[0] = Vertex3D(0.5f, 0.5f, 0.f, 1.0f, 1.0f);		vertices[0].setNormal(Vector3D(0.5f, 0.5f, 0.f));
+	vertices[1] = Vertex3D(0.5f, -0.5f, 0.0f, 1.0f, 0.0f);		vertices[1].setNormal(Vector3D(0.5f, -0.5f, 0.0f));
+	vertices[2] = Vertex3D(-0.5f, -0.5f, 0.f, 0.0f, 0.0f);		vertices[2].setNormal(Vector3D(-0.5f, -0.5f, 0.f));
+	vertices[3] = Vertex3D(-0.5f, 0.5f, 0.f, 0.0f, 1.0f);		vertices[3].setNormal(Vector3D(-0.5f, 0.5f, 0.f));
 
 
 	indices[0] = (unsigned int)0;		

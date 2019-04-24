@@ -99,7 +99,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)Dependencies\include\GLAD\include;$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\assimp\build\include;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)Dependencies\include\GLAD\include;$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\assimp\lib;$(SolutionDir)Dependencies\lib-vc2015</AdditionalLibraryDirectories>
@@ -187,6 +187,8 @@
     <None Include="frag.shader" />
     <None Include="lightVert.shader" />
     <None Include="lightFrag.shader" />
+    <None Include="modelFrag.shader" />
+    <None Include="modelVert.shader" />
     <None Include="vert.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

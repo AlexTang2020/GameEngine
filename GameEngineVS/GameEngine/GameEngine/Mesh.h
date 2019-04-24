@@ -9,6 +9,17 @@
 #include "Vertex3D.h"
 #include "shader.h"
 
+struct Vertex {
+	// position
+	Vector3D Position;
+	// texCoords
+	float sTex;
+	float tTex;
+	// normal
+	Vector3D Normal;
+};
+
+
 struct Texture {
 	unsigned int id;
 	std::string type;
@@ -18,14 +29,14 @@ struct Texture {
 class Mesh {
 public:
 	/*  Mesh Data  */
-	std::vector<Vertex3D> vertices;
+	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
 	unsigned int VAO;
 
 	/*  Functions  */
 	// constructor
-	Mesh(std::vector<Vertex3D> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 	
 
 	// render the mesh
