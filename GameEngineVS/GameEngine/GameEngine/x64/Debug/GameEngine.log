@@ -1,3 +1,13 @@
-﻿  Camera.cpp
+﻿  Model.cpp
+  RenderManager.cpp
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(56): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(300): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(301): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(305): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(306): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(308): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(309): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(317): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  GameEngine.vcxproj -> C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe
+  GameEngine.vcxproj -> C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe

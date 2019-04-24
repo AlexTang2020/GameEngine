@@ -2,17 +2,17 @@
 
 Pyramid::Pyramid(GLuint VAO)
 {
-	vertices[0] = Vertex3D(0.f, 0.5f, 0.f, .5f, 1.f);
-	vertices[1] = Vertex3D(-1.f, -0.5f, 1.f, 0.f, 0.f);
-	vertices[2] = Vertex3D(1.f, -0.5f, 1.f, 1.f, 0.f);
-	vertices[3] = Vertex3D(1.f, -0.5f, 1.f, 0.f, 0.f);
-	vertices[4] = Vertex3D(1.f, -0.5f, -1.f, 1.f, 0.f);
-	vertices[5] = Vertex3D(1.f, -0.5f, -1.f, 0.f, 0.f);
-	vertices[6] = Vertex3D(-1.f, -0.5f, -1.f, 1.f, 0.f);
-	vertices[7] = Vertex3D(-1.f, -0.5f, -1.f, 0.f, 0.f);
-	vertices[8] = Vertex3D(-1.f, -0.5f, 1.f, 1.f, 0.f);
-	vertices[9] = Vertex3D(-1.f, -0.5f, -1.f, 0.f, 1.f);
-	vertices[10] = Vertex3D(1.f, -0.5f, -1.f, 1.f, 1.f);
+	vertices[0] = Vertex3D(0.f, 0.5f, 0.f, .5f, 1.f);			vertices[0].setNormal(Vector3D(0.0f, 1.0f, 0.0f));
+	vertices[1] = Vertex3D(-1.f, -0.5f, 1.f, 0.f, 0.f);			vertices[1].setNormal(Vector3D(-0.5f, -1.0f, 0.5f));
+	vertices[2] = Vertex3D(1.f, -0.5f, 1.f, 1.f, 0.f);			vertices[2].setNormal(Vector3D(0.5f, -1.0f, 0.5f));
+	vertices[3] = Vertex3D(1.f, -0.5f, 1.f, 0.f, 0.f);			vertices[3].setNormal(Vector3D(0.5f, -1.0f, 0.5f));
+	vertices[4] = Vertex3D(1.f, -0.5f, -1.f, 1.f, 0.f);			vertices[4].setNormal(Vector3D(0.5f, -1.0f, -0.5f));
+	vertices[5] = Vertex3D(1.f, -0.5f, -1.f, 0.f, 0.f);			vertices[5].setNormal(Vector3D(0.5f, -1.0f, -0.5f));
+	vertices[6] = Vertex3D(-1.f, -0.5f, -1.f, 1.f, 0.f);		vertices[6].setNormal(Vector3D(-0.5f, -1.0f, -0.5f));
+	vertices[7] = Vertex3D(-1.f, -0.5f, -1.f, 0.f, 0.f);		vertices[7].setNormal(Vector3D(-0.5f, -1.0f, -0.5f));
+	vertices[8] = Vertex3D(-1.f, -0.5f, 1.f, 1.f, 0.f);			vertices[8].setNormal(Vector3D(-0.5f, -1.0f, 0.5f));
+	vertices[9] = Vertex3D(-1.f, -0.5f, -1.f, 0.f, 1.f);		vertices[9].setNormal(Vector3D(-0.5f, -1.0f, -0.5f));
+	vertices[10] = Vertex3D(1.f, -0.5f, -1.f, 1.f, 1.f);		vertices[10].setNormal(Vector3D(0.5f, -1.0f, -0.5f));
 
 	indices[0] = 0;		indices[1] = 1;		indices[2] = 2;		//Front Triangle
 	indices[3] = 0;		indices[4] = 3;		indices[5] = 4;		//Right Triangle
@@ -50,8 +50,8 @@ void Pyramid::loadPyramid(GLuint VAO, GLuint VBO, GLuint EBO)
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, s));
 	// vertex normals
-	//glEnableVertexAttribArray(2);
-	//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, normal));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, normal));
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

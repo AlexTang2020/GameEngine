@@ -25,7 +25,7 @@ public:
 	void assignBuffers(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
 
 
-	void display(GLFWwindow* window, Shader ourShader, GLuint vao);
+	void display(GLFWwindow* window, Shader ourShader, Shader lShader, GLuint vao, GLuint lVAO);
 	void processInput(GLFWwindow *window);
 	unsigned int loadTexture(char const* path);
 

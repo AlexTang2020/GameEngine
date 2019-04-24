@@ -15,6 +15,7 @@ float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 
+
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
@@ -44,7 +45,7 @@ int GLFWwindowCheck(GLFWwindow* window) {
 	return 0;
 }
 
-void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
+void RenderManager::display(GLFWwindow* window, Shader ourShader, Shader lShader, GLuint VAO, GLuint lVAO) {
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -76,18 +77,18 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 
 		// be sure to activate shader when setting uniforms/drawing objects
 		ourShader.use();
-		/*
-		glUniform3f(glGetUniformLocation(ourShader.ID, "light.position"), 0.0f, 0.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(ourShader.ID, "viewPos"), 0.0f, 0.0f, 0.0f);
+		
+		glUniform3f(glGetUniformLocation(ourShader.ID, "light.direction"), -0.2f, -1.0f, -0.3f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "viewPos"), camera.Position.x, camera.Position.y, camera.Position.z);
 
 		// light properties
-		glUniform3f(glGetUniformLocation(ourShader.ID, "light.ambient"), 0.0f, 0.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(ourShader.ID, "light.diffuse"), 0.0f, 0.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(ourShader.ID, "light.specular"), 0.0f, 0.0f, 0.0f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "light.ambient"), 0.5f, 0.5f, 0.5f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "light.diffuse"), 0.5f, 0.5f, 0.5f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "light.specular"), 1.0f, 1.0f, 1.0f);
 
 		// material properties
-		ourShader.setFloat("material.shininess", 64.0f);
-		*/
+		ourShader.setFloat("material.shininess", 32.0f);
+		
 		
 		//Basic set up to test when transformation is resolved
 		Matrix4 model = Matrix4();
@@ -118,18 +119,19 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		//unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
 		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &model.mat4[0][0]);		//Can use value_ptr(transform) as well
 
+
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
 
 		/*
-		//NEED TO FIX TRANSFORMS
-		lightingShader.use();
-		lightingShader.setMat4("projection", projection.mat4);
-		lightingShader.setMat4("view", view.mat4);
-		model = translate(0.0f,0.0f,0.0f);
-		model = scale(0.2f,0.2f,0.2f); // a smaller cube
-		lightingShader.setMat4("model", model.mat4);
-		glBindVertexArray(lightVAO);
+		lShader.use();
+		lShader.setMat4("projection", projection.mat4);
+		lShader.setMat4("view", view.mat4);
+		model.setIdentity();
+		model = translate(model, 2.0f,4.0f,3.0f);
+		model = scale(model, 0.2f,0.2f,0.2f); // a smaller cube
+		lShader.setMat4("model", model.mat4);
+		glBindVertexArray(lVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		*/
 
@@ -180,19 +182,19 @@ int RenderManager::run()
 
 	// build and compile our shader program
 	// ------------------------------------
-	//Shader lightingShader("lightVert.shader", "lightFrag.shader");
 	Shader ourShader("vert.shader", "frag.shader");
+	Shader lightingShader("lightVert.shader", "lightFrag.shader");
 
 	//Cube cube(VAO);
 	//Quad quad(VAO);
 	//Pyramid pyr(VAO);
 	Sphere sph(VAO);
-
+	Cube lCube(lightVAO);
 	// note that we update the lamp's position attribute's stride to reflect the updated buffer data
 	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-
+	
 	// shader configuration
 	// --------------------
 	ourShader.use();
@@ -201,15 +203,19 @@ int RenderManager::run()
 
 	unsigned int diffuseMap = loadTexture("Rainbow.png");
 	
-	display(window, ourShader, VAO);
+	// bind diffuse map
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, diffuseMap);
+
+	display(window, ourShader, lightingShader, VAO, lightVAO);
 	
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
 	//cube.deleteCube(VAO, 1);
-	//glDeleteVertexArrays(1, &lightVAO);
 	//quad.deleteQuad(VAO, 1);
 	//pyr.deletePyramid(VAO,1);
 	sph.deleteSphere(VAO,1);
+	lCube.deleteCube(lightVAO, 1);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

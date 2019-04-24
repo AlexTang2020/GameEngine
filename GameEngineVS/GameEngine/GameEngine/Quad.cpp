@@ -3,10 +3,10 @@
 
 Quad::Quad(GLuint VAO)
 {
-	vertices[0] = Vertex3D(0.5f, 0.5f, 0.f, 1.0f, 1.0f);
-	vertices[1] = Vertex3D(0.5f, -0.5f, 0.f, 1.0f, 0.0f);
-	vertices[2] = Vertex3D(-0.5f, -0.5f, 0.f, 0.0f, 0.0f);
-	vertices[3] = Vertex3D(-0.5f, 0.5f, 0.f, 0.0f, 1.0f);
+	vertices[0] = Vertex3D(0.5f, 0.5f, 0.f, 1.0f, 1.0f);		vertices[0].setNormal(Vector3D(0.0f, 0.0f, 1.0f));
+	vertices[1] = Vertex3D(0.5f, -0.5f, 0.f, 1.0f, 0.0f);		vertices[1].setNormal(Vector3D(0.0f, 0.0f, 1.0f));
+	vertices[2] = Vertex3D(-0.5f, -0.5f, 0.f, 0.0f, 0.0f);		vertices[2].setNormal(Vector3D(0.0f, 0.0f, 1.0f));
+	vertices[3] = Vertex3D(-0.5f, 0.5f, 0.f, 0.0f, 1.0f);		vertices[3].setNormal(Vector3D(0.0f, 0.0f, 1.0f));
 
 
 	indices[0] = (unsigned int)0;		
@@ -46,8 +46,8 @@ void Quad::loadQuad(GLuint VAO, GLuint VBO, GLuint EBO)
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, s));
 	// vertex normals
-	//glEnableVertexAttribArray(2);
-	//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, normal));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, normal));
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

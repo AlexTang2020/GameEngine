@@ -63,6 +63,12 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cube.h">
@@ -122,6 +128,12 @@
     <ClInclude Include="Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vert.shader">
@@ -130,10 +142,10 @@
     <None Include="frag.shader">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="lightFrag.shader">
+    <None Include="lightVert.shader">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="lightVert.shader">
+    <None Include="lightFrag.shader">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
