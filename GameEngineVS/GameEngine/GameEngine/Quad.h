@@ -17,7 +17,7 @@ public:
 	unsigned int VBO, EBO;
 
 	void loadQuad(GLuint VAO, GLuint VBO, GLuint EBO);								//Loads and binds quad
-	void deleteQuad(GLuint VAO, int va);	//Deletes quad from buffers
+	void deleteQuad();	//Deletes quad from buffers
 
 private:
 

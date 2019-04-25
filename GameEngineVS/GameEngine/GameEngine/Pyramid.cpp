@@ -62,9 +62,8 @@ void Pyramid::loadPyramid(GLuint VAO, GLuint VBO, GLuint EBO)
 	
 }
 
-void Pyramid::deletePyramid(GLuint VAO, int va)
+void Pyramid::deletePyramid()
 {
-	glDeleteVertexArrays(va, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 }

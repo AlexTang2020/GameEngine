@@ -21,6 +21,13 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
+//Primitives
+std::vector<Cube> cubes;				unsigned int cubeVAO;	
+std::vector<Quad> quads;				unsigned int quadVAO;
+std::vector<Pyramid> pyramids;			unsigned int pyrVAO;
+std::vector<Sphere> spheres;			unsigned int sphVAO;
+//std::vector<Cube> lights;
+//std::vector<Model> models;
 
 void RenderManager::GLFWSetUp() {
 	// glfw: initialize and configure
@@ -47,9 +54,15 @@ int GLFWwindowCheck(GLFWwindow* window) {
 	return 0;
 }
 
-void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
+void RenderManager::display(GLFWwindow* window, Shader ourShader) {
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	
+	unsigned int diffuseMap = loadTexture("textures/Rainbow.png");
+	unsigned int foodMap = loadTexture("textures/animefood.png");
+	unsigned int maillerMap = loadTexture("textures/mailler.png");
+	unsigned int papaMap = loadTexture("textures/papaBless.png");
+
 
 	// render loop
 	// -----------
@@ -93,19 +106,69 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader, GLuint VAO) {
 		view.setIdentity();
 		projection.setIdentity();
 
-		model = translate(model, 0.0f, 0.0f, 3.0f);
+		//model = translate(model, 0.0f, 0.0f, 3.0f);
 
 		projection = perspective((float)(45.0f * M_PI) / 180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		ourShader.setMat4("projection", projection.mat4);
 
 		view = camera.GetViewMatrix();
-
-		ourShader.setMat4("model", model.mat4);
 		ourShader.setMat4("view", view.mat4);
 
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, papaMap);
+		model = scale(model, 100.0f, 100.0f, 100.0f);
+		ourShader.setMat4("model", model.mat4);
+		glBindVertexArray(cubeVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+		glDrawElements(GL_TRIANGLES, cubes.at(0).numIndices, GL_UNSIGNED_INT, 0);
 
-		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
+
+		glBindTexture(GL_TEXTURE_2D, diffuseMap);
+		for (int i = 0; i < 3; i++) {
+			model.setIdentity();
+			model = translate(model, 1.0f + 5.0f * i, 0.0f + 2.0f * i, 2.0f + 1.0f * i);
+			ourShader.setMat4("model", model.mat4);
+			glBindVertexArray(cubeVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+			glDrawElements(GL_TRIANGLES, cubes.at(i).numIndices, GL_UNSIGNED_INT, 0);
+		}
+
+		glBindTexture(GL_TEXTURE_2D, foodMap);
+		for (int i = 0; i < 3; i++) {
+			model.setIdentity();
+			if (i == 2) {
+				model = scale(model, 10.0f,10.0f,10.0f);
+				model = rotate(model, M_PI/2, 1.0f, 0.0f, 0.0f);
+				model = translate(model, 0.0f, -1.0f, 4.0f);
+			}
+			else {
+				model = rotate(model, glfwGetTime(), 1.0f, 0.0f, 0.0f);
+				model = translate(model, 1.0f - 2.0f * i, 0.3f + 0.5f * i, 1.0f + 2.0f * i);
+			}
+			ourShader.setMat4("model", model.mat4);
+			glBindVertexArray(quadVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+			glDrawElements(GL_TRIANGLES, quads.at(i).numIndices, GL_UNSIGNED_INT, 0);
+		}
+
+		glBindTexture(GL_TEXTURE_2D, papaMap);
+		for (int i = 0; i < 3; i++) {
+			model.setIdentity();
+			model = translate(model, -3.0f + 6.0f * i, -0.4f + 1.2f * i, 2.0f + 1.0f * i);
+			ourShader.setMat4("model", model.mat4);
+			glBindVertexArray(pyrVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+			glDrawElements(GL_TRIANGLES, pyramids.at(i).numIndices, GL_UNSIGNED_INT, 0);
+		}
+
+		glBindTexture(GL_TEXTURE_2D, maillerMap);
+		for (int i = 0; i < 3; i++) {
+			model.setIdentity();
+			model = translate(model, -2.0f + 3.0f * i, 5.0f - 2.0f * i, 4.0f + 0.5f * i);
+			ourShader.setMat4("model", model.mat4);
+			glBindVertexArray(sphVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+			glDrawElements(GL_TRIANGLES, spheres.at(i).numIndices, GL_UNSIGNED_INT, 0);
+		}
+
+		model.setIdentity();
+
+		//glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
 
 		/*
 		lShader.use();
@@ -152,51 +215,52 @@ int RenderManager::run()
 	
 	glEnable(GL_DEPTH_TEST);
 
-	unsigned int VAO;			//LearnOpengl.com Instancing Tutorial for reorganizing primitives
-    glGenVertexArrays(1, &VAO);	//Place VAO and VAO gen inside primitive class, just make array of class object and set up VAO binding
+    glGenVertexArrays(1, &cubeVAO);	
+	glGenVertexArrays(1, &quadVAO);
+	glGenVertexArrays(1, &pyrVAO);
+	glGenVertexArrays(1, &sphVAO);
 
-	// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
-	//unsigned int lightVAO;
-	//glGenVertexArrays(1, &lightVAO);
-	//glBindVertexArray(lightVAO);
+	for (int i = 0; i < 3; i++) {
+		cubes.push_back(Cube(cubeVAO));
+		quads.push_back(Quad(quadVAO));
+		pyramids.push_back(Pyramid(pyrVAO));
+		spheres.push_back(Sphere(sphVAO));
+	}
+
 
 	// build and compile our shader program
 	// ------------------------------------
 	Shader ourShader("vert.shader", "frag.shader");
 	//Shader lightingShader("lightVert.shader", "lightFrag.shader");
 	//Shader ourShader("modelVert.shader", "modelFrag.shader");
-
-	//Cube cube(VAO);
-	//Quad quad(VAO);
-	//Pyramid pyr(VAO);
-	Sphere sph(VAO);
-	//Cube lCube(lightVAO);
-	// note that we update the lamp's position attribute's stride to reflect the updated buffer data
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	//glEnableVertexAttribArray(0);
-
 	
 	// shader configuration
 	// --------------------
 	ourShader.use();
 	ourShader.setInt("material.diffuse", 0);
-	ourShader.setInt("material.specular", 1);
+	ourShader.setInt("material.specular", 1);	
 
-	unsigned int diffuseMap = loadTexture("textures/Rainbow.png");
-	
-	// bind diffuse map
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, diffuseMap);
-
-	display(window, ourShader, VAO);//, lightingShader, VAO, lightVAO);
+	display(window, ourShader);
 	
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
-	//cube.deleteCube(VAO, 1);
-	//quad.deleteQuad(VAO, 1);
-	//pyr.deletePyramid(VAO,1);
-	sph.deleteSphere(VAO,1);
-	//lCube.deleteCube(lightVAO, 1);
+
+	glDeleteVertexArrays(1, &cubeVAO);
+	glDeleteVertexArrays(1, &quadVAO);
+	glDeleteVertexArrays(1, &pyrVAO);
+	glDeleteVertexArrays(1, &sphVAO);
+
+	for (int i = 0; i < 3; i++) {
+		cubes.at(i).deleteCube();
+		quads.at(i).deleteQuad();
+		pyramids.at(i).deletePyramid();
+		spheres.at(i).deleteSphere();
+	}
+
+	cubes.empty();
+	quads.empty();
+	pyramids.empty();
+	spheres.empty();
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

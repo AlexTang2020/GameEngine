@@ -1,11 +1,12 @@
 ﻿  RenderManager.cpp
-C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(58): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(281): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(282): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(286): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(287): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(289): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(290): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(298): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  GameEngine.vcxproj -> C:\Users\alex7\OneDrive\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(139): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(143): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(345): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(346): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(350): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(351): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(353): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(354): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\GameEngine\RenderManager.cpp(362): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  GameEngine.vcxproj -> C:\Users\Admin\Documents\GitHub\GameEngine\GameEngineVS\GameEngine\x64\Debug\GameEngine.exe

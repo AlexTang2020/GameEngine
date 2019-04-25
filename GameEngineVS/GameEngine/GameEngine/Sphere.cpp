@@ -119,9 +119,8 @@ void Sphere::loadSphere(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBindVertexArray(0);
 }
 
-void Sphere::deleteSphere(GLuint VAO,  int va)
+void Sphere::deleteSphere()
 {
-	glDeleteVertexArrays(va, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 }

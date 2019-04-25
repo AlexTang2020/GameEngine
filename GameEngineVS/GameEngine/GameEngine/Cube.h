@@ -63,7 +63,7 @@ public:
 		28, 29, 30, 31, 32, 33, 34, 35 };
 	*/
 	void loadCube(GLuint VAO, GLuint VBO, GLuint EBO);									//Loads and binds cube
-	void deleteCube(GLuint VAO, int va);		//Deletes cube from buffers
+	void deleteCube();		//Deletes cube from buffers
 	Cube(GLuint VAO);
 	~Cube();
 };

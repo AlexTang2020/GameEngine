@@ -4,6 +4,8 @@
 #include "stb_image.h"
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <sstream>
 #include <stdlib.h>
 #include <vector>
 #include <list>

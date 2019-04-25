@@ -53,9 +53,8 @@ void Cube::loadCube(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBindVertexArray(0);
 }
 
-void Cube::deleteCube(GLuint VAO, int va)
+void Cube::deleteCube()
 {
-		glDeleteVertexArrays(va, &VAO);
 		glDeleteBuffers(1, &VBO);
 		glDeleteBuffers(1, &EBO);
 }

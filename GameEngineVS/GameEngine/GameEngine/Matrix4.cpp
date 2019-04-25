@@ -19,8 +19,15 @@ Matrix4:: ~Matrix4() {
 
 void Matrix4::setIdentity()
 {
-	for (int diag = 0; diag < 4; diag++) {
-		mat4[diag][diag] = 1.f;
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 4; col++) {
+			if (row == col) {
+				mat4[row][col] = 1.0f;
+			}
+			else {
+				mat4[row][col] = 0.0f;
+			}
+		}
 	}
 }
 

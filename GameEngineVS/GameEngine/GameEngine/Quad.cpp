@@ -57,9 +57,8 @@ void Quad::loadQuad(GLuint VAO, GLuint VBO, GLuint EBO)
 	glBindVertexArray(0);
 }
 
-void Quad::deleteQuad(GLuint VAO, int va)
+void Quad::deleteQuad()
 {
-	glDeleteVertexArrays(va, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 }
