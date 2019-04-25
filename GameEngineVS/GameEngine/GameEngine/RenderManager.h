@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "Math.h"
 #include "Graphics.h"
-//#include "Model.h"
+#include "Model.h"
 
 class RenderManager
 {
@@ -26,7 +26,7 @@ public:
 	void assignBuffers(GLuint VAO, GLuint VBO, GLuint EBO, int va, int vb, int eb);
 
 
-	void display(GLFWwindow* window, Shader ourShader);
+	void display(GLFWwindow* window, Shader ourShader, Shader mShader);
 	void processInput(GLFWwindow *window);
 	unsigned int loadTexture(char const* path);
 

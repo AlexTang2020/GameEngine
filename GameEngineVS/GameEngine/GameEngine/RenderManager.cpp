@@ -27,7 +27,8 @@ std::vector<Quad> quads;				unsigned int quadVAO;
 std::vector<Pyramid> pyramids;			unsigned int pyrVAO;
 std::vector<Sphere> spheres;			unsigned int sphVAO;
 //std::vector<Cube> lights;
-//std::vector<Model> models;
+//std::vector<Model> models;			
+
 
 void RenderManager::GLFWSetUp() {
 	// glfw: initialize and configure
@@ -54,7 +55,7 @@ int GLFWwindowCheck(GLFWwindow* window) {
 	return 0;
 }
 
-void RenderManager::display(GLFWwindow* window, Shader ourShader) {
+void RenderManager::display(GLFWwindow* window, Shader ourShader, Shader mShader) {
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
@@ -123,15 +124,16 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader) {
 
 
 		glBindTexture(GL_TEXTURE_2D, diffuseMap);
+		glBindVertexArray(cubeVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		for (int i = 0; i < 3; i++) {
 			model.setIdentity();
 			model = translate(model, 1.0f + 5.0f * i, 0.0f + 2.0f * i, 2.0f + 1.0f * i);
 			ourShader.setMat4("model", model.mat4);
-			glBindVertexArray(cubeVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 			glDrawElements(GL_TRIANGLES, cubes.at(i).numIndices, GL_UNSIGNED_INT, 0);
 		}
 
 		glBindTexture(GL_TEXTURE_2D, foodMap);
+		glBindVertexArray(quadVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		for (int i = 0; i < 3; i++) {
 			model.setIdentity();
 			if (i == 2) {
@@ -144,31 +146,38 @@ void RenderManager::display(GLFWwindow* window, Shader ourShader) {
 				model = translate(model, 1.0f - 2.0f * i, 0.3f + 0.5f * i, 1.0f + 2.0f * i);
 			}
 			ourShader.setMat4("model", model.mat4);
-			glBindVertexArray(quadVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 			glDrawElements(GL_TRIANGLES, quads.at(i).numIndices, GL_UNSIGNED_INT, 0);
 		}
 
 		glBindTexture(GL_TEXTURE_2D, papaMap);
+		glBindVertexArray(pyrVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		for (int i = 0; i < 3; i++) {
 			model.setIdentity();
 			model = translate(model, -3.0f + 6.0f * i, -0.4f + 1.2f * i, 2.0f + 1.0f * i);
 			ourShader.setMat4("model", model.mat4);
-			glBindVertexArray(pyrVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 			glDrawElements(GL_TRIANGLES, pyramids.at(i).numIndices, GL_UNSIGNED_INT, 0);
 		}
 
 		glBindTexture(GL_TEXTURE_2D, maillerMap);
+		glBindVertexArray(sphVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		for (int i = 0; i < 3; i++) {
 			model.setIdentity();
+			model = rotate(model, glfwGetTime(), 0.0f, 1.0f, 0.0f);
 			model = translate(model, -2.0f + 3.0f * i, 5.0f - 2.0f * i, 4.0f + 0.5f * i);
 			ourShader.setMat4("model", model.mat4);
-			glBindVertexArray(sphVAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 			glDrawElements(GL_TRIANGLES, spheres.at(i).numIndices, GL_UNSIGNED_INT, 0);
 		}
 
+		/*
+		mShader.use();
 		model.setIdentity();
-
+		model = translate(model, 0.0f, 0.0f, 4.0f);
+		mShader.setMat4("model", model.mat4);
+		//models.at(0).Draw(mShader);
+		*/
 		//glDrawElements(GL_TRIANGLES, 13824, GL_UNSIGNED_INT, 0);
+
+		glBindVertexArray(0); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 
 		/*
 		lShader.use();
@@ -220,6 +229,7 @@ int RenderManager::run()
 	glGenVertexArrays(1, &pyrVAO);
 	glGenVertexArrays(1, &sphVAO);
 
+
 	for (int i = 0; i < 3; i++) {
 		cubes.push_back(Cube(cubeVAO));
 		quads.push_back(Quad(quadVAO));
@@ -227,20 +237,22 @@ int RenderManager::run()
 		spheres.push_back(Sphere(sphVAO));
 	}
 
-
 	// build and compile our shader program
 	// ------------------------------------
 	Shader ourShader("vert.shader", "frag.shader");
 	//Shader lightingShader("lightVert.shader", "lightFrag.shader");
-	//Shader ourShader("modelVert.shader", "modelFrag.shader");
-	
+	Shader modShader("modelVert.shader", "modelFrag.shader");
+	//Model model("sword.obj");
+	//models.push_back(model);
+
 	// shader configuration
 	// --------------------
 	ourShader.use();
 	ourShader.setInt("material.diffuse", 0);
 	ourShader.setInt("material.specular", 1);	
 
-	display(window, ourShader);
+
+	display(window, ourShader, modShader);
 	
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
@@ -249,6 +261,7 @@ int RenderManager::run()
 	glDeleteVertexArrays(1, &quadVAO);
 	glDeleteVertexArrays(1, &pyrVAO);
 	glDeleteVertexArrays(1, &sphVAO);
+
 
 	for (int i = 0; i < 3; i++) {
 		cubes.at(i).deleteCube();
@@ -261,6 +274,7 @@ int RenderManager::run()
 	quads.empty();
 	pyramids.empty();
 	spheres.empty();
+	//models.empty();
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

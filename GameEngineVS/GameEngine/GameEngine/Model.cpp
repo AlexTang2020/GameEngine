@@ -65,13 +65,13 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
 		vertex.Position = vector;
-		/*
+		
 		// normals
 		vector.x = mesh->mNormals[i].x;
 		vector.y = mesh->mNormals[i].y;
 		vector.z = mesh->mNormals[i].z;
-		vertex.normal = Vector3D(vector.x, vector.y, vector.z);
-		*/
+		vertex.Normal = Vector3D(vector.x, vector.y, vector.z);
+		
 		// texture coordinates
 		if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
 		{
@@ -110,14 +110,14 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-	/*
+	
 	// 3. normal maps
 	std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
 	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 	// 4. height maps
-	std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
-	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-	*/
+	//std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+	//textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+	
 	// return a mesh object created from the extracted mesh data
 	return Mesh(vertices, indices, textures);
 }
